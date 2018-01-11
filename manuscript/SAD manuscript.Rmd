@@ -1,0 +1,1637 @@
+---
+title             : "Survey Automation Detection Methods and Their Implication for Psychological Research"
+shorttitle        : "Survey Automation"
+
+author: 
+  - name          : "Erin M. Buchanan"
+    affiliation   : "1"
+    corresponding : yes    # Define only one corresponding author
+    address       : "901 S. National Ave, Springfield, MO, 65804"
+    email         : "erinbuchanan@missouristate.edu"
+  - name          : "John E. Scofield"
+    affiliation   : "2"
+
+affiliation:
+  - id            : "1"
+    institution   : "Missouri State University"
+  - id            : "2"
+    institution   : "University of Missouri"
+
+author_note: >
+  Erin M. Buchanan, Department of Psychology, Missouri State University; John E. Scofield, Department of Psychological Sciences, University of Missouri.
+
+abstract: >
+  Web-based data collection methods such as Amazon's Mechanical Turk (AMT) are an appealing option to recruit participants quickly and cheaply for psychological research. While concerns regarding data quality have emerged with AMT, several studies have exhibited that data collected via AMT are as reliable as traditional college samples and are often more diverse and representative of noncollege populations. The development of participant screening methods, however, has been less explored. Omitting participants based on simple screening methods in isolation, such as response time or attention checks may not be adequate identification methods, with an inability to delineate between high or low effort participants. Additionally, problematic survey responses may arise from survey automation techniques such as survey bots or automated form fillers. The current project developed survey automation detection (SAD) methods while overcoming previous screening limitations. Multiple checks were employed, such as page response times, distribution of survey responses, the number of utilized choices from a given range of scale options, click counts, and manipulation checks. This method was tested on a survey taken with an easily available plug-in survey bot, as well as compared to data collected by human participants providing both high effort and randomized, or low effort, answers. Identified cases can then be used as part of sensitivity analyses to warrant exclusion from further analyses. SAD methods can be a promising tool to identify low quality or automated data via AMT or other online data collection platforms. 
+
+  
+keywords          : "Amazon Mechanical Turk, survey automation, participant screening, data quality"
+
+bibliography      : ["BotBib.bib"]
+
+figsintext        : no
+figurelist        : no
+tablelist         : no
+footnotelist      : no
+lineno            : yes
+
+lang              : "english"
+class             : "man"
+output            : papaja::apa6_pdf
+---
+
+```{r libraries, include = FALSE}
+library("papaja")
+library(MOTE)
+library(ez)
+library(reshape)
+library(ggplot2)
+library(moments)
+library(cowplot)
+
+cleanup = theme(panel.grid.major = element_blank(), 
+                panel.grid.minor = element_blank(), 
+                panel.background = element_blank(), 
+                axis.line.x = element_line(color = "black"),
+                axis.line.y = element_line(color = "black"),
+                legend.key = element_rect(fill = "white"),
+                text = element_text(size = 15))
+
+p.value = function(x){
+  if (x < .001) { return("< .001")}
+  else { return(apa(x, 3, F))}
+}
+
+```
+Amazon Mechanical Turk (AMT) was created in 2005 to serve as a marketplace where tasks and miscellaneous jobs are performed by "workers" in exchange for monetary compensation. Tasks range in size and time commitment, where payment for tasks are usually a function of the time commitment. Workers are able to complete tasks remotely around the world, so demographic makeup is naturally more representative compared to traditional WEIRD (Western, Educated, Industrialized, Rich, Democratic) subject pools [@Henrich2010]. Typically, about half of workers come from within the United States, whereas upwards to 40% of workers can come from India [@Ipeirotis2010]. Slightly more females than males have also been documented as AMT workers [@Paolacci2010]. 
+
+With a large pool of workers available at any given time, AMT is an extremely attractive market for researchers posting studies or experiments, especially with the prospect that data collection from studies can be completed quickly and cheaply [@Chandler2017; @Downs2010; @Mason2012]. Tasks posted from researchers can range between writing tasks, traditional surveys, or even participating in experiments. Since 2005, AMT has quickly become a popular and accessible tool for researchers, especially in the social sciences [@Buhrmester2011]. This popularity has been reflected in academic literature, as over 500 articles in 2015 alone reported utilizing AMT as a means to collect data [@Chandler2017]. Notably, those aforementioned articles were published in academic journals with an impact factor exceeding 2.5 [@Chandler2017], suggesting community acceptance of the use of AMT as a viable subject pool. 
+
+Although the use of AMT as a subject pool has undoubtedly become an invaluable tool for researchers with limited time or budgets, concerns still arise regarding the pay structure for workers. @Downs2010 elucidates that payments are suggested to reflect a reasonable rate, with eight dollars per hour being a reasonable minimum (13 cents per minute). However, feedback from actual AMT workers indicated that a fair price included a range as low as around $3.50 per hour [@Sorokin2008]. Small monetary payouts can be considered a question of research ethics [@Fort2011], and @Felstiner2011 further discusses the debate and ethical implications of compensation for crowd-source platforms such as AMT. Small monetary compensation for workers also brings up questions regarding whether subjects take tasks at hand in a serious matter or with complete attention [@Downs2010; @Paolacci2010]. This point can be especially plausible considering the anonymous nature of many research experiments. However, @Mason2012 found that financial compensation was not typically a main motivating factor when completing tasks, and that a good majority of participants considered the quality of work they were providing. Moreover, from a quality check perspective, data quality were found to be invariant to changes in the level of pay workers receive for various tasks [@Buhrmester2011].
+
+##Quality of Data
+
+Apart from concerns about worker payment, questions have surfaced about the quality of data researchers obtain from crowd-sourcing platforms like AMT. One initial concern centers on how representative subject samples are compared to traditional subject pools, like at colleges and universities. Previous research has shown that participants recruited via AMT are at a minimum as representative as traditional participant pools. In many cases participants are more representative and closer to a general population in geographical location and age [@Berinsky2012; @Casler2013; @Paolacci2010; @Paolacci2014]. In some cases utilizing these online platforms can be beneficial, overcoming inherent limitations from certain WEIRD participant pools from colleges and universities. 
+
+In addition to representative samples matching or exceeding standards set by traditional subject pools, there is a paucity of research to indicate that the quality of data provided by AMT workers is any worse than college samples. Crowd-sourcing platform data from multiple studies were found to be nearly tantamount to traditional sampling [@Gosling2004; @Krantz2000]. @Paolacci2010 found AMT to be a reliable source to collect experimental data in judgment and decision-making paradigms, and a slew of other comparisons between traditional sampling and online data collection with multiple types of experimental tasks have generally found similar reliability [@Goodman2012; @Gosling2004; @Mason2012; @Suri2011]. Overall, @Buhrmester2011 concluded that data collected from AMT sufficiently meets common psychometric standards that are prevalent in the academic literature. Using online methods for data collection can additionally help to mitigate other confounding concerns, such as experimenter bias or participant reactance, which can be problematic in laboratory and in person experimental settings. An attenuation of these potentially limiting biases can help the internal validity associated with experiments run through AMT [@Paolacci2010].
+
+##Participant Screening Methods
+
+A serious concern with any data provided by human participants is the quality of the data, as the standard of garbage in, garbage out applies to any form of statistical analysis. There are multiple ways in which data can be screened to help increase the quality of data, while mitigating various forms of noise. One such method would be to examine the length of time participants spent on a given task. By indicating which participants spent an implausibly short amount of time on a task, we may be able to eliminate inappropriate data (i.e., random clicks by participants). @Downs2010 examined time and its effects on performance by setting a threshold at the 90th percentile for time spent on a given task as valid data. Performance, however, was not remarkably better between participants who did and did not finish quickly, and so @Downs2010 suggested that setting thresholds may not be an adequate identifier for those who are, so to speak, "gaming the system". @Goodman2012 also noted that when analyzing differences in task performance, the fastest 8% did not do much better than the rest of the sample and the fastest 3% of respondents only did slightly worse compared to the rest of the sample. However, @Mason2012 suggested that using the time spent completing a certain task can be a viable way of screening out low effort responses. 
+
+Another method includes the use of attention checks or gold standard questions. These are questions with obvious answers, such as "Please choose the second option for this question", as a means of assessing active participation among participants. @Paolacci2010 advocates for the use of attention checks to help screen for attentiveness. However, @Goodman2012 stated concerns regarding the exclusion of participants from response times or attention checks alone. These concerns revolve around potentially biasing samples. Researchers could additionally ask pre-screening questions in attempts to test participants of a certain nature. By employing logic in many online surveys, participants can be routed to an end of a survey if certain answers (e.g. demographic information) are not selected in a survey. Current screening methods still vary depending on the nature of the present task. With mixed results regarding the use of certain types of screening methods, a better aim is to develop more reliable methods for screening participants.
+
+##Purpose of Current Study
+
+Fraudulent participant responses can be problematic for any study, leading to the question of appropriate screening methods. @Chandler2017 found that AMT workers wished more work was available to them, which in turn may influence motivations to lie about characteristics, or find means to provide fraudulent responses [@Berg2006]. Participants may use tactics such as reloading surveys and changing previous answers if a pre-screening question has become apparent. While many online platforms, such as Qualtrics, have options to prevent duplicate responses (i.e. ballot stuffing), duplicate responses can still be possible. @Chandler2017 found evidence that even after utilizing options to prevent duplicate responses, 3% of responses were found to be duplicates. 
+
+An alternate form of suspicious survey responses stem not from human participants, but from survey automation techniques such as survey bots or automated form fillers. Automated form fillers allow participants to complete entire surveys with one or two clicks. For instance, certain browser plug-ins randomly select radio buttons among common types of survey responses (e.g. Likert style questions). Similarly, when able to overcome constraints such as preventative methods to curtail ballot stuffing, survey bots could be a method to efficiently complete the same survey multiple times. The current project investigated this question in three ways. First, we investigated the characteristics of automated form fillers on Likert style data, and used those characteristics to help develop automation detection methods. Second, we further examined differences between automated, high effort, and low effort responses by having participants complete a survey in multiple ways. Last, a survey was placed on AMT, and data was screened using participant screening detection methods to investigate the rate of automated and low effort responses in a given sample. Sensitivity analyses were then used to compare differences in responses given various ratios of high effort to low effort/automated responses. This study was pre-registered at the Open Science Framework (https://osf.io/erqzm/), and all materials, data, and R code are available at https://osf.io/x6t8a/.
+
+#Survey Automation Detection (SAD) Development
+
+#Method
+
+##Simulated Data
+
+To investigate the possibility of automated survey responses, a survey bot was constructed to investigate characteristics of survey responses completed by automated form fillers. The survey bot was created using the "Form Filler" Google Chrome plug-in, which automatically inputs all selection within a given page with dummy data. This plugin was used in both the SAD development, as well as confederate testing. The survey bot was constructed using Python, which navigated to an online survey, simulating mouse movements and clicks in an iterative fashion. The survey bot imputed and submitted random values, iterated over one thousand times until complete data was available for 1000 rows. The online survey simply consisted of 100 Likert style questions with a scale range from one to seven. Since this data was created with the automated filler, no real questions or scale values were used (i.e. an empty shell of a survey was created for this part of the project). Scale values, along with page response times and click counts were extracted from the Qualtrics database with an aim to generally explore the characteristics of automated survey responses.
+
+#Results
+
+```{r sad-dev, include = FALSE}
+
+## Load Survey Bot data
+SurveyBot = read.csv("SurveyBot1k.csv")
+SurveyBot[] <- lapply(SurveyBot, function(x) {
+  if(is.integer(x)) as.numeric(as.character(x)) else x
+})
+SurveyBot$Partno = 1:nrow(SurveyBot)
+
+######missing data
+##several did not record, thus we ran round two to get 1000 responses
+percentmiss = function(x){sum(is.na(x)/length(x))*100}
+##rows
+missing = apply(SurveyBot,1,percentmiss)
+table(missing)
+nomiss = subset(SurveyBot, missing<=5)
+
+add5 = read.csv("SurveyBot5.csv")
+add5[] <- lapply(add5, function(x) {
+  if(is.integer(x)) as.numeric(as.character(x)) else x
+})
+add5$Partno = nrow(SurveyBot)+1:nrow(add5) + nrow(SurveyBot)
+##rows
+missing2 = apply(add5,1,percentmiss)
+table(missing2)
+
+fullsurvey = rbind(nomiss, add5)
+
+####click count####
+summary(fullsurvey$ClickCount)
+
+####page timing####
+summary(fullsurvey$FirstClick)
+summary(fullsurvey$LastClick)
+Msubmit = mean(fullsurvey$PageSubmit)
+SDsubmit = sd(fullsurvey$PageSubmit)
+
+#quantiles of page submit
+Quantsubmit = quantile(fullsurvey$PageSubmit)
+
+##create melted data
+longdata = melt(fullsurvey,
+                id = c("Partno","IP","Duration",
+                       "FirstClick","LastClick",
+                       "PageSubmit","ClickCount"))
+
+##look at the distribution of the bot data
+hist(longdata$value, breaks = 22)
+table(longdata$value)
+
+####skew and kurtosis####
+pno = c(1:1000)
+sk = c(1:1000)
+ku = c(1:1000)
+round = 0
+
+for(i in 1:nrow(fullsurvey)){
+  round = round+1
+  x = unname(unlist(fullsurvey[round, -c(1:6,107)]))
+  sk[round] = skewness(x)
+  ku[round] = kurtosis(x)
+}
+
+options(scipen = 999)
+skewkurt = as.data.frame(cbind(pno,sk,ku))
+
+## average skewness
+Mskew = mean(skewkurt$sk)
+SDskew = sd(skewkurt$sk)
+
+## average kurtosis
+Mkurt = mean(skewkurt$ku, na.rm = T)
+SDkurt = sd(skewkurt$ku)
+```
+
+```{r sad-hist, echo=FALSE, fig.cap="Histogram of responses from SAD development testing.", fig.height=5, fig.width=6}
+##make histogram
+ggplot(longdata, aes(value)) +
+  geom_histogram(binwidth = .51, 
+                 color = "black", 
+                 fill = "gray") +
+  xlab("Answer Choices") +
+  ylab("Frequency") + xlim("1","2","3","4","5","6","7")+
+  cleanup
+```
+
+##Click Count
+
+The click count was operationalized as the total number of times that a participant clicked on the survey page. Ideally, this number has a minimum of the number of questions on that page. For instance, if a survey has 15 questions, we should expect a minimum of 15 clicks for an active human participant who has answered every question. The page submit button (i.e. continue, next, submit) does not record a click. In this data, click count is zero with no variance, as Qualtrics does not always register clicks from automated form fillers.
+
+##Page Timing 
+
+Qualtrics often provides different measures of timing, including the time it takes for the first and last click, and the submission of the survey page, all beginning from when the page first loaded. We found that the time to first click and last click were zero, as no clicks were recorded. The page submit time averaged *M* = `r apa(Msubmit,2)` seconds (*SD* = `r apa(SDsubmit,2)`). The lower quantile of the page submit time was `r apa(Quantsubmit[2], 2)` seconds and the upper quantile was `r apa(Quantsubmit[4], 2)` seconds. Each individual page of a survey gives the researcher the ability to see what data might be usable by examining each set of questions for page submit times and click count. Additionally, depending on the programming of the original survey, participants may be able to close out of survey and return at a later date to finish. This survey setup can result in a total survey duration time of several days, making total survey duration an unreliably difficult metric to judge for low effort responses. 
+
+##Data Distribution
+
+A histogram was used to examine the pattern of responses provided by the survey bot. The responses to the blank questions on the survey were examined across all rows, and the data was uniform across the seven Likert scale options (see Figure \@ref(fig:sad-hist)). The average skew for responses was less than `r apa(Mskew,2)` (*SD* = `r apa(SDskew,2)`) and the average kurtosis was `r apa(Mkurt,2)` (*SD* = `r apa(SDkurt,2)`). 
+
+#SAD Confederate Testing
+
+##Participants
+
+Next, survey response characteristics were compared between different means of survey completion. The survey was first sent to the research team of the investigators, and then the investigator's summer undergraduate and graduate courses. Additional participants were recruited the first week of data collection in the fall semester from the undergraduate participant pool at a large Midwestern university. We originally aimed for a sample size of *N* = 100, and preemptively recruited more participants to allow for the exclusion of incorrect responses (i.e. participants who did not fill out the survey correctly). The overall dataset initially included 202 participants. 16 participants were excluded for failing to consent to the study. 64 participants were excluded for failing to complete the study 100%. As described below, we employed attention checks to ensure that our test data was appropriate, and 14 more participants were excluded due to incorrect answers on the manipulation checks. Last, we excluded participants who used the survey automation on the incorrect section, as determined by click counts, and another 14 were excluded. Therefore, final *N* for the study was 94. Participants were given course credit for their participation. 
+
+```{r data-screen, include = FALSE}
+
+##load data
+master = read.csv("Bot_MSU.csv")
+
+##exclude no consent
+master1 = subset(master, Q1 == 1)
+
+##exclude people who didn't finish
+percentmiss = function(x){ sum(is.na(x)) / length(x) * 100}
+missing = apply(master1, 1, percentmiss)
+table(missing)
+master2 = subset(master1, missing == 0)
+
+##exclude people who got the check questions wrong
+#master2$first = master2$Q7 == 1
+#master2$second = master2$Q10 == 3
+#master2$third = master2$Q14 == 2
+#with(master2, table(first))
+#with(master2, table(second))
+#with(master2, table(third))
+
+master3 = subset(master2, master2$Q7 == 1)
+master3 = subset(master3, master3$Q10 == 3)
+master3 = subset(master3, master3$Q14 == 2)
+
+##exclude people who used the bot on the wrong page
+summary(master3$Q5_4)
+summary(master3$Q7_4)
+summary(master3$Q11_4)
+
+master4 = subset(master3, Q7_4 >= 15)
+master4 = subset(master4, Q11_4 < 15)
+
+##restructure the data
+realdat = master4[,c(2:20)]
+realdat$condition = "real"
+colnames(realdat) = c("Tfirst", "Tlast", "Tpage", "Click","q1","q2","q3","q4",
+                      "q5","q6","q7","q8","q9","q10","q11","q12","q13","q14","q15", "condition")
+realdat$partno = 1:nrow(realdat)
+
+randdat = master4[,c(22:40)]
+randdat$condition = "rand"
+colnames(randdat) = c("Tfirst", "Tlast", "Tpage", "Click","q1","q2","q3","q4",
+                      "q5","q6","q7","q8","q9","q10","q11","q12","q13","q14","q15","condition")
+randdat$partno = 1:nrow(randdat)
+
+botdat = master4[,c(42:60)]
+botdat$condition = "bot"
+colnames(botdat) = c("Tfirst", "Tlast", "Tpage", "Click","q1","q2","q3","q4",
+                      "q5","q6","q7","q8","q9","q10","q11","q12","q13","q14","q15","condition")
+botdat$partno = 1:nrow(botdat)
+
+final = rbind(realdat, randdat, botdat)
+final$condition = factor(final$condition)
+```
+
+##Materials
+
+The survey used was the Resilience Scale 14 Items (RS-14) which measures an individual's resiliency through items covering meaning/purpose, perseverance, equanimity, self-reliance, and existential loneliness [@Wagnild2009; @Wagnild1993]. This scale uses a 1 (*strongly disagree*) to 7 (*strongly agree*) Likert response scale. Survey questions can be found at www.resiliencecenter.com to find specific RS-14 item content. This questionnaire has been previously investigated by the investigators [@Aiena2014] across clinical and undergraduate samples and was found to be reliable and valid. Real questionnaire questions were used in order to examine reading times and authentic answers. An additional item manipulation check was embedded into each page of the survey that read: "Please mark strongly agree for this question.". The complete survey can be found in the online supplementary materials at https://osf.io/x6t8a/.
+
+##Procedure
+
+Participants were routed to an online Qualtrics survey. The same survey was completed three times in a randomized order. The first condition was active participation, where subjects were instructed to truthfully and actively complete the survey by reading and answering each question. The second condition was the random, or low effort condition, where participants were instructed not to read the questions but to merely select random answers at their own pace to complete the survey. The third and final condition was the automated response condition, in which participants were instructed to complete the survey using an automated form filler. When the experiment began, participants viewed a video that explained how to take the survey, including how install the automatic survey filler. Participants could not advance until after the duration of the video. After each condition, participants were asked to answer which condition they had just completed, as a check to exclude participants who were not following survey instructions. A critical component to survey automation detection was page timing and clicks, and therefore, each page included a timer question to measure this data. Participants were required to use Google Chrome because of the easy availability to install an automated form filler. The survey and YouTube instructional video can be found online. 
+
+#Results
+
+##Click Count
+
+```{r click, include = FALSE}
+
+##set up for below
+nsim = nrow(final)
+final$partno = factor(final$partno)
+
+####click count####
+##remember to include the manip check 
+totalexp = apply(final[ , 5:19],1, function(x){sum(!is.na(x))})
+
+for(i in 1:nsim){
+  if(final$Click[i] >= totalexp[i]){
+    final$badClick[i] = 0
+  } else{
+    final$badClick[i] = 1
+  }
+}
+clicktable = table(final$badClick, final$condition) / 94 * 100
+
+##anova of differences
+ezclick = ezANOVA(data = final,
+        wid = partno,
+        within = condition,
+        dv = Click,
+        type = 3)
+##get means, sd, length
+Mclick = tapply(final$Click, list(final$condition), mean)
+SDclick = tapply(final$Click, list(final$condition), sd)
+Nclick = tapply(final$Click, list(final$condition), length)
+
+##post hoc
+postclick = pairwise.t.test(final$Click, final$condition, 
+                paired = T,
+                p.adjust.method = "bonferroni")
+
+#bot rand
+dclick1 = d.dep.t.avg(Mclick[1], Mclick[2],
+            SDclick[1], SDclick[2],
+            Nclick[1], a = .05)
+
+#bot real
+dclick2 = d.dep.t.avg(Mclick[1], Mclick[3],
+            SDclick[1], SDclick[3],
+            Nclick[1], a = .05)
+
+#real rand
+dclick3 = d.dep.t.avg(Mclick[3], Mclick[2],
+            SDclick[3], SDclick[2],
+            Nclick[3], a = .05)
+
+####start table####
+tableprint = matrix(NA, nrow = 16, ncol = 4)
+colnames(tableprint) = c("Item", "Bot Data", "Low Effort Data", "Real Data")
+
+tableprint[1, ] = c("Click Count", 
+                    paste(apa(Mclick[1], 2), " (", apa(SDclick[1], 2), ")", sep = ""),
+                    paste(apa(Mclick[2], 2), " (", apa(SDclick[2], 2), ")", sep = ""),
+                    paste(apa(Mclick[3], 2), " (", apa(SDclick[3], 2), ")", sep = ""))
+tableprint[2, ] = c("Flagged Click Count", apa(clicktable[2, ], 1))
+
+```
+
+For the purposes of this study, we excluded all missing data. If researchers wish to not exclude missing data, or to fill in missing data, we minimally suggest that data be screened for responses where the click count is at least the same or higher than the number of valid responses on a page. Using this rule, data were flagged if click count was less than the number of logged responses. All automated responses were flagged, whereas click counts from the low effort and active conditions were acceptable. It is important to note that real survey automation responses may still contain some clicks, as participants may click on the page before clicking on the form filler plug-in. A one-way repeated measures ANOVA was examined on click count using the *ez* library [@Lawrence2016]. For all significance testing, an $\alpha$ of .05 was used, along with presentation of effect sizes. Effect sizes include generalized eta squared and $d_{av}$ for pairwise comparisons [@Lakens2013]. All confidence intervals on $d_{av}$ are non-centralized calculated using the *MOTE* library [@Buchanan2017], and all *d* values throughout the manuscript are presented as positive for ease of interpretation with exact means in tables for directionality. The ANOVA revealed expected differences, *F*(`r paste(ezclick$ANOVA[2], ", ", ezclick$ANOVA[3], ") = ", apa(ezclick$ANOVA[4], 2), ",", sep = "")` *p* < .001, *ges* = `r apa(ezclick$ANOVA[7], 2, F)`. A *post hoc* dependent *t*-test using a Bonferroni correction indicated that automated data was different from low effort responses (*p* < .001, $d_{av}$ = `r apa(abs(dclick1$d), 2)`, *95% CI*[`r apa(abs(dclick1$dlow), 2)` - `r apa(abs(dclick1$dhigh),2)`]) and high effort responses (*p* < .001, $d_{av}$ = `r apa(abs(dclick2$d), 2)`, *95% CI*[`r apa(abs(dclick2$dlow), 2)` - `r apa(abs(dclick2$dhigh),2)`]). High and low effort responses were not different in their number of clicks (*p* = 1.00, $d_{av}$ = `r apa(abs(dclick3$d), 2)`, *95% CI*[`r apa(abs(dclick3$dlow), 2)` - `r apa(abs(dclick3$dhigh),2)`]). Means, standard deviations, and flagged percentages can be found in Table \@ref(tab:sad-table1).
+
+##Page Timing
+
+```{r pagetime, include = FALSE}
+
+####page submit response time####
+#remember that zero is OK, one is a problem 
+##http://iovs.arvojournals.org/article.aspx?articleid=2166061
+ourchar = 1021
+meanchar = 987
+sdchar = 118
+upperchar = meanchar + 2*sdchar
+cutoffChar = ourchar / upperchar * 60
+final$badChar = as.numeric(final$Tpage < cutoffChar)
+pagetable = table(final$badChar, final$condition)/94*100
+
+ezpage = ezANOVA(data = final,
+        wid = partno,
+        within = condition,
+        dv = Tpage,
+        type = 3)
+##get means, sd, length
+Mpage = tapply(final$Tpage, list(final$condition), mean)
+SDpage = tapply(final$Tpage, list(final$condition), sd)
+Npage = tapply(final$Tpage, list(final$condition), length)
+##post hoc
+postpage = pairwise.t.test(final$Tpage, final$condition, 
+                paired = T,
+                p.adjust.method = "bonferroni")
+
+#bot rand
+dpage1 = d.dep.t.avg(Mpage[1], Mpage[2],
+            SDpage[1], SDpage[2],
+            Npage[1], a = .05)
+
+#bot real
+dpage2 = d.dep.t.avg(Mpage[1], Mpage[3],
+            SDpage[1], SDpage[3],
+            Npage[1], a = .05)
+
+#real rand
+dpage3 = d.dep.t.avg(Mpage[3], Mpage[2],
+            SDpage[3], SDpage[2],
+            Npage[3], a = .05)
+
+tableprint[3, ] = c("Page Timing", 
+                    paste(apa(Mpage[1], 2), " (", apa(SDpage[1], 2), ")", sep = ""),
+                    paste(apa(Mpage[2], 2), " (", apa(SDpage[2], 2), ")", sep = ""),
+                    paste(apa(Mpage[3], 2), " (", apa(SDpage[3], 2), ")", sep = ""))
+tableprint[4, ] = c("Flagged Page Timing", apa(pagetable[2, ], 1))
+
+```
+
+In order to determine a critical score for page timing, we referenced research by @Trauzettel-Klosinski2012 that indicated the reading aloud speeds of English speaking participants (along with many other languages for reference). We used the character reading limit to account for differences in word length that could potentially bias estimated reading time. Our survey included 1021 characters, and mean character reading speed per minute from @Trauzettel-Klosinski2012 was `r meanchar` (*SD* = `r sdchar`). To calculate a critical score, we added two standard deviations to the mean expected speed to account for the top 95% of readers. Then the character count from our study was divided by the upper reading speed and multiplied by 60 to create a time in seconds that should be minimally spent on the page of the survey. Participants were flagged if their page submit time was below this critical score (`r cutoffChar`). As shown in Table \@ref(tab:sad-table1), the majority of the automated and low effort data were flagged as problematic, while the high effort data were not primarily flagged. A one-way repeated measures ANOVA indicated differences in page submit time, *F*(`r paste(ezpage$ANOVA[2], ", ", ezpage$ANOVA[3], ") = ", apa(ezpage$ANOVA[4], 2), ",", sep = "")` *p* < .001, *ges* = `r apa(ezpage$ANOVA[7], 2, F)`. Follow up *post hoc* tests indicated that low effort page submit times were faster than the high effort condition (*p* < .001, $d)_{av}$ = `r apa(abs(dpage3$d), 2)`, *95% CI*[`r apa(abs(dpage3$dlow), 2)` - `r apa(abs(dpage3$dhigh),2)`]). Automated page submit times were faster than high effort data (*p* < .001, $d)_{av}$ = `r apa(abs(dpage2$d), 2)`, *95% CI*[`r apa(abs(dpage2$dlow), 2)` - `r apa(abs(dpage2$dhigh),2)`]), but slower than low effort data (*p* = `r apa(postpage$p.value[1], 3, F)`, $d)_{av}$ = `r apa(abs(dpage1$d), 2)`, *95% CI*[`r apa(abs(dpage1$dlow), 2)` - `r apa(abs(dpage1$dhigh),2)`]). The automated data may have been slightly slower than low effort data because of participant's lack of awareness of automated form fillers, as they may have been installing and using the plug-in for the first time.
+
+##Data Distribution
+
+###Skew and Kurtosis
+
+```{r skewkurt, include = FALSE}
+
+####Skewness####
+skewstuff = apply(final[,c(5:18)], 1, skewness)
+final$skew = as.numeric(skewstuff)
+summary(final$skew)
+final$skew[is.na(final$skew)] <- 0
+
+ezskew = ezANOVA(data = final,
+        wid = partno,
+        within = condition,
+        dv = skew,
+        type = 3)
+##get means, sd, length
+Mskew = tapply(final$skew, list(final$condition), mean)
+SDskew = tapply(final$skew, list(final$condition), sd)
+Nskew = tapply(final$skew, list(final$condition), length)
+##post hoc
+postskew = pairwise.t.test(final$skew, final$condition, 
+                paired = T,
+                p.adjust.method = "bonferroni")
+
+#bot rand
+dskew1 = d.dep.t.avg(Mskew[1], Mskew[2],
+            SDskew[1], SDskew[2],
+            Nskew[1], a = .05)
+
+#bot real
+dskew2 = d.dep.t.avg(Mskew[1], Mskew[3],
+            SDskew[1], SDskew[3],
+            Nskew[1], a = .05)
+
+#real rand
+dskew3 = d.dep.t.avg(Mskew[3], Mskew[2],
+            SDskew[3], SDskew[2],
+            Nskew[3], a = .05)
+
+tableprint[5, ] = c("Skewness", 
+                    paste(apa(Mskew[1], 2), " (", apa(SDskew[1], 2), ")", sep = ""),
+                    paste(apa(Mskew[2], 2), " (", apa(SDskew[2], 2), ")", sep = ""),
+                    paste(apa(Mskew[3], 2), " (", apa(SDskew[3], 2), ")", sep = ""))
+
+####Kurtosis####
+kurstuff = apply(final[,c(5:18)], 1, kurtosis)
+final$kurt = as.numeric(kurstuff)
+summary(final$kurt)
+final$kurt[is.na(final$kurt)] <- 0
+
+ezkurt = ezANOVA(data = final,
+        wid = partno,
+        within = condition,
+        dv = kurt,
+        type = 3)
+##get means, sd, length
+Mkurt = tapply(final$kurt, list(final$condition), mean)
+SDkurt = tapply(final$kurt, list(final$condition), sd)
+Nkurt = tapply(final$kurt, list(final$condition), length)
+##post hoc
+postkurt = pairwise.t.test(final$kurt, final$condition, 
+                paired = T,
+                p.adjust.method = "bonferroni")
+
+#bot rand
+dkurt1 = d.dep.t.avg(Mkurt[1], Mkurt[2],
+            SDkurt[1], SDkurt[2],
+            Nkurt[1], a = .05)
+
+#bot real
+dkurt2 = d.dep.t.avg(Mkurt[1], Mkurt[3],
+            SDkurt[1], SDkurt[3],
+            Nkurt[1], a = .05)
+
+#real rand
+dkurt3 = d.dep.t.avg(Mkurt[3], Mkurt[2],
+            SDkurt[3], SDkurt[2],
+            Nkurt[3], a = .05)
+
+tableprint[6, ] = c("Kurtosis", 
+                    paste(apa(Mkurt[1], 2), " (", apa(SDkurt[1], 2), ")", sep = ""),
+                    paste(apa(Mkurt[2], 2), " (", apa(SDkurt[2], 2), ")", sep = ""),
+                    paste(apa(Mkurt[3], 2), " (", apa(SDkurt[3], 2), ")", sep = ""))
+
+```
+
+
+In examining the automated form fillers, skew and kurtosis were thought to be a potential avenue to detect automated data, as the distribution was uniform. The skew and kurtosis for each participant's answers were calculated, but these values were difficult to interpret. Specifically, while one-way repeated measures ANOVA indicated differences in skew (*F*(`r paste(ezskew$ANOVA[2], ", ", ezskew$ANOVA[3], ") = ", apa(ezskew$ANOVA[4], 2), ",", sep = "")` *p* < .001, *ges* = `r apa(ezskew$ANOVA[7], 2, F)`) and kurtosis (*F*(`r paste(ezkurt$ANOVA[2], ", ", ezkurt$ANOVA[3], ") = ", apa(ezkurt$ANOVA[4], 2), ",", sep = "")` *p* < .001, *ges* = `r apa(ezkurt$ANOVA[7], 2, F)`) across groups, the way to screen for problematic values was unclear. High effort data appeared to be slightly more skewed than automated data (*p* < .001, $d_{av}$ = `r apa(abs(dskew2$d), 2)`, *95% CI*[`r apa(abs(dskew2$dlow), 2)` - `r apa(abs(dskew2$dhigh),2)`]) and low effort data (*p* < .001, $d_{av}$ = `r apa(abs(dskew3$d), 2)`, *95% CI*[`r apa(abs(dskew3$dlow), 2)` - `r apa(abs(dskew3$dhigh),2)`]), while automated data is more negatively skewed than random data (*p* = `r apa(postskew$p.value[1],3,F)`, $d_{av}$ = `r apa(abs(dskew1$d), 2)`, *95% CI*[`r apa(abs(dskew1$dlow), 2)` - `r apa(abs(dskew1$dhigh),2)`]). High effort data was more kurtotic than automated (*p* < .001, $d_{av}$ = `r apa(abs(dkurt2$d), 2)`, *95% CI*[`r apa(abs(dkurt2$dlow), 2)` - `r apa(abs(dkurt2$dhigh),2)`]) and low effort data (*p* = `r apa(postkurt$p.value[4],3,F)`, $d_{av}$ = `r apa(abs(dkurt3$d), 2)`, *95% CI*[`r apa(abs(dkurt3$dlow), 2)` - `r apa(abs(dkurt3$dhigh),2)`]), while automated and low effort data did not appear to be different (*p* = `r apa(postkurt$p.value[1],3,F)`, $d_{av}$ = `r apa(abs(dkurt1$d), 2)`, *95% CI*[`r apa(abs(dkurt1$dlow), 2)` - `r apa(abs(dkurt1$dhigh),2)`]). The number of items on the scale or page will likely heavily influence these results, and therefore, we decided to examine other options to determine uniformly distributed data to identify automated data. 
+
+###Number of options used
+
+```{r scale, include = FALSE}
+
+####number of scale options used####
+OptUse = function(x){
+  length(table(as.vector(as.matrix(unname(x)))))
+}
+numOpt = apply(final[,c(5:18)],1,OptUse)
+final$numOpt = as.numeric(numOpt)
+
+ezpoint = ezANOVA(data = final,
+        wid = partno,
+        within = condition,
+        dv = numOpt,
+        type = 3)
+##get means, sd, length
+Mpoint = tapply(final$numOpt, list(final$condition), mean)
+SDpoint = tapply(final$numOpt, list(final$condition), sd)
+Npoint = tapply(final$numOpt, list(final$condition), length)
+##post hoc
+postpoint = pairwise.t.test(final$numOpt, final$condition, 
+                paired = T,
+                p.adjust.method = "bonferroni")
+
+#bot rand
+dpoint1 = d.dep.t.avg(Mpoint[1], Mpoint[2],
+            SDpoint[1], SDpoint[2],
+            Npoint[1], a = .05)
+
+#bot real
+dpoint2 = d.dep.t.avg(Mpoint[1], Mpoint[3],
+            SDpoint[1], SDpoint[3],
+            Npoint[1], a = .05)
+
+#real rand
+dpoint3 = d.dep.t.avg(Mpoint[3], Mpoint[2],
+            SDpoint[3], SDpoint[2],
+            Npoint[3], a = .05)
+
+
+final$badScaleCheck = "NA"
+nsim = nrow(final)
+for(i in 1:nsim){
+  ##more than half of the options
+  if(final$numOpt[i] >= 5){
+    final$badScaleCheck[i] = 1
+  } else{
+    final$badScaleCheck[i] = 0
+  }
+}
+pointtable = table(final$badScaleCheck, final$condition)/94*100
+
+tableprint[7, ] = c("Number of Scale Points", 
+                    paste(apa(Mpoint[1], 2), " (", apa(SDpoint[1], 2), ")", sep = ""),
+                    paste(apa(Mpoint[2], 2), " (", apa(SDpoint[2], 2), ")", sep = ""),
+                    paste(apa(Mpoint[3], 2), " (", apa(SDpoint[3], 2), ")", sep = ""))
+tableprint[8, ] = c("Flagged Scale Points", apa(pointtable[2, ], 1))
+
+
+```
+
+Previous research has shown that participants are likely to select the ends of Likert type scales [@Zhu2010], and from the first study, we found that automated data is primarily uniform with nearly even answer choice selection for participants. Therefore, we flagged participants on the number of responses they used on the Likert scale. Problematic cases were identified if more than half of the scale items were used (i.e., 7/2 = 3.5, therefore, 4 was the criterion). Table \@ref(tab:sad-table1) portrays that nearly all the automated and low effort data used four or more scale points, while only 25% of the high effort data used four or more scale items The raw number of items used was different across conditions, *F*(`r paste(ezpoint$ANOVA[2], ", ", ezpoint$ANOVA[3], ") = ", apa(ezpoint$ANOVA[4], 2), ",", sep = "")` *p* < .001, *ges* = `r apa(ezpoint$ANOVA[7], 2, F)`. Automated and low effort data were not different (*p* = 1.00, $d_{av}$ = `r apa(abs(dpoint1$d), 2)`, *95% CI*[`r apa(abs(dpoint1$dlow), 2)` - `r apa(abs(dpoint1$dhigh),2)`]), while both were different than high effort data: automated *p* < .001, $d_{av}$ = `r apa(abs(dpoint2$d), 2)`, *95% CI*[`r apa(abs(dpoint2$dlow), 2)` - `r apa(abs(dpoint2$dhigh),2)`]; low effort *p* < .001, $d_{av}$ = `r apa(abs(dpoint3$d), 2)`, *95% CI*[`r apa(abs(dpoint3$dlow), 2)` - `r apa(abs(dpoint3$dhigh),2)`].
+
+###Distribution Comparison
+
+```{r distribution, include = FALSE}
+
+####Distribution Testing####
+minscale = 1
+maxscale = 7
+
+for(i in 1:nsim){
+  temprow = as.numeric(unname(final[i,5:18 ])) 
+  utable = matrix(0, nrow = 1, ncol = length(minscale:maxscale))
+  for(x in minscale:maxscale) {
+    utable[x] = length(temprow[ temprow == x])
+  }
+  uniformest = chisq.test(utable,
+                          rescale.p = T,
+                          simulate.p.value = T)
+  
+  ##test normal distribution
+  ##first convert to z score
+  ztest = scale(temprow)
+  ##then figure out how much of the data is binned for SDs
+  ztable = matrix(0, nrow = 1, ncol = 6)
+  ztable[1] = length(ztest[ ztest <= -2 ])  
+  ztable[2] = length(ztest[ ztest > -2 & ztest <= -1  ])
+  ztable[3] = length(ztest[ ztest > -1 & ztest <= 0 ])
+  ztable[4] = length(ztest[ ztest > 0 & ztest <= 1 ])
+  ztable[5] = length(ztest[ ztest > 1 & ztest <= 2 ])
+  ztable[6] = length(ztest[ ztest > 2 ])
+  znormal = c(0.0228, 0.1359, 0.3413, 0.3413, 0.1359, 0.0228)
+  normalest = chisq.test(ztable,
+                         p = znormal*sum(ztable),
+                         rescale.p = T,
+                         simulate.p.value = T)
+  ##output return chi square values
+  final$uniform[i] = uniformest$statistic
+  final$normal[i] = normalest$statistic
+  
+  ##if uniform < normal
+  if(uniformest$statistic < normalest$statistic)
+  {
+    ##if more than 1 option
+    if (final$numOpt[i]>1)
+      {
+      final$dist[i] = 0 ##uniform is better
+    } else { ##handles when people only pick one thing
+        final$dist[i] = 2
+      }
+    
+  }
+  
+  ##if uniform >= normal
+  if(uniformest$statistic >= normalest$statistic)
+  {
+    ##if more than 1 option
+    if (final$numOpt[i]>1)
+    {
+      final$dist[i] = 1 ##normal is better
+    } else { ##handles when people only pick one thing
+      final$dist[i] = 2
+    }
+    
+  }
+    
+
+  #0 means uniform fits better
+  #1 means normal fits better
+  #2 means only chose one scale option
+
+  }## end of for loop
+
+final$dist = factor(final$dist,
+                    levels = 0:2,
+                    labels = c("uniform", "normal", "undecided"))
+table(final$dist, final$condition)
+
+for(i in 1:nsim){
+  if(final$dist[i] == "uniform"){
+    final$badDist[i] = 1
+  }
+  if (final$dist[i] == "normal"){
+    final$badDist[i] = 0
+  } else if(final$dist[i] == "undecided") {
+    final$badDist[i] = 0
+  }
+}
+distable = table(final$badDist, final$condition) / 94 * 100 
+
+tableprint[9, ] = c("Flagged Distribution", apa(distable[2, ], 1))
+
+```
+
+While no statistical test can indicate which distribution a set of data is, the data can be fit to several distributions to determine which provides better distribution fit. Two chi-square tests were performed for each participant's answers by condition. First, a goodness of fit test was examined where each answer choice was expected to be equally likely (i.e., expected value for chi-square were set to 1/7th) to mimic a uniform distribution. To estimate a normal distribution, the scale options were *z*-scored. The *z*-scores were binned into less than -2, -2 to -1, -1 to 0, 0 to 1, 1 to 2, and greater than 2. These values were compared to expected probabilities given the normal distribution (i.e., 2.28%, 13.59%, 34.13%, 34.13%, 13.59%, 2.28%). The chi-square values were treated in a similar fashion to structural equation models, where lower values were considered better fit. When chi-square values were smaller for uniform distributions, participants were flagged as problematic, while chi-square values lower for the normal distribution were not treated as problematic. A third category of undecided was created for times when participants chose only one of the scale options for all items, and these were coded as not problematic. Table \@ref(tab:sad-table1) indicates that generally, none of the high effort data was coded as problematic, while a quarter of the automated and low effort data was captured with this criterion. While discrimination with this criterion was low as a single marker, it was included in the detection function as an option to capture some poor data in conjunction with other indicators. 
+
+##Manipulation Checks
+
+```{r manip, include = FALSE}
+
+####manipulation check question####
+table(final$q15, final$condition)
+
+corans = 7
+
+for(i in 1:nsim){
+  if(final$q15[i] == 7) 
+  { final$badMC[i] = 0
+  } else { final$badMC[i] = 1} 
+}
+mctable = table(final$badMC, final$condition) / 94 * 100
+
+tableprint[10, ] = c("Flagged Manipulation Check", apa(mctable[2, ], 1))
+```
+
+Finally, a traditional manipulation check was examined. Participants were flagged as problematic if they did not answer this question correctly. We expect that participants in the automated condition would have a likelihood of one divided by the number of scale options (in this case, seven) of passing the manipulation check, and Table \@ref(tab:sad-table1) portrays that the percent of non-problematic data fit this trend exactly. Therefore, nearly 86% of automated data was flagged, while almost all low effort data was problematic. In the high effort data condition, only 3% of responses to this item were incorrect, and therefore flagged. 
+
+##Total Detection
+
+```{r total, include = FALSE}
+
+####total up####
+final$badTotal = as.numeric(final$badChar) + 
+  as.numeric(final$badClick) + 
+  as.numeric(final$badDist) + 
+  as.numeric(final$badScaleCheck) + 
+  as.numeric(final$badMC)
+
+totaltable = table(final$badTotal, final$condition) / 94 * 100
+
+tableprint[11, ] = c("0 Indicators", apa(totaltable[1, ], 1))
+tableprint[12, ] = c("1 Indicators", apa(totaltable[2, ], 1))
+tableprint[13, ] = c("2 Indicators", apa(totaltable[3, ], 1))
+tableprint[14, ] = c("3 Indicators", apa(totaltable[4, ], 1))
+tableprint[15, ] = c("4 Indicators", apa(totaltable[5, ], 1))
+tableprint[16, ] = c("5 Indicators", apa(totaltable[6, ], 1))
+
+```
+
+After scoring each set of participant's answers as flagged or not flagged, total scores of the number of flagged detection items were created. Five indicators were used: low click counts, low page submit times, answer choice selection spread, answer choice distribution, and manipulation checks. For best discrimination, we suggest using a criterion of two or more flagged items as reasons to exclude participants from a study. At this level, 100% of the automated data would be eliminated and 99% of the low effort data. Only 2% of the high effort data would be excluded. The SAD function developed from this data does not distinguish between low effort and automated responses, in that both types of participant responses would be considered problematic for research purposes. Therefore, all detected data is considered automated, as low effort responses can be considered a derivative type of automation compared to bot created data. The SAD algorithm code was designed to export all criterion information into a data frame so that individual researchers could implement their own detection rules, and can be adapted if not all items are available due to survey construction. We encourage researchers using this function to be transparent with their screening for problematic data and to consider the effects of screening on sample size planning for future studies. 
+
+```{r sad-table1, echo = FALSE, results='asis'}
+
+apa_table(tableprint,
+          align = c("l", rep("c", 4)),
+          caption = "Summary statistics and percent flagged for SAD development", 
+          note = "Mean values presented with standard deviations in parentheses."
+          )
+```
+
+```{r scip-graphs-confederate, eval=FALSE, include=FALSE}
+clickbar = ggplot(final, aes(as.factor(badClick), Click, fill = condition))
+clickbar + 
+  stat_summary(fun.y = mean,
+               geom = "bar",
+               position = "dodge") +
+  stat_summary(fun.data = mean_cl_normal,
+               geom = "errorbar", 
+               position = position_dodge(width = 0.90),
+               width = .2) +
+  cleanup +
+  xlab("Data Type") +
+  ylab("Click Count") +
+  scale_x_discrete(labels = c("Acceptable", "Flagged")) +
+  scale_fill_brewer(palette="Greys",
+                    name = "Condition", 
+                    labels = c("Automated", "Low Effort", "High Effort"))
+
+pagebar = ggplot(final, aes(as.factor(badChar), Tpage, fill = condition))
+pagebar + 
+  stat_summary(fun.y = mean,
+               geom = "bar",
+               position = "dodge") +
+  stat_summary(fun.data = mean_cl_normal,
+               geom = "errorbar", 
+               position = position_dodge(width = 0.90),
+               width = .2) +
+  cleanup +
+  xlab("Data Type") +
+  ylab("Click Count") +
+  scale_x_discrete(labels = c("Acceptable", "Flagged")) +
+  scale_fill_brewer(palette="Greys",
+                    name = "Condition", 
+                    labels = c("Automated", "Low Effort", "High Effort"))
+
+scalebar = ggplot(final, aes(as.factor(badScaleCheck), numOpt, fill = condition))
+scalebar + 
+  stat_summary(fun.y = mean,
+               geom = "bar",
+               position = "dodge") +
+  stat_summary(fun.data = mean_cl_normal,
+               geom = "errorbar", 
+               position = position_dodge(width = 0.90),
+               width = .2) +
+  cleanup +
+  xlab("Data Type") +
+  ylab("Click Count") +
+  scale_x_discrete(labels = c("Acceptable", "Flagged")) +
+  scale_fill_brewer(palette="Greys",
+                    name = "Condition", 
+                    labels = c("Automated", "Low Effort", "High Effort"))
+
+pietable = as.data.frame(tableprint[11:16, ])
+pietable$bot = as.numeric(as.character(pietable$`Bot Data`))
+pietable$low = as.numeric(as.character(pietable$`Low Effort Data`))
+pietable$high = as.numeric(as.character(pietable$`Real Data`))
+
+totalhist = ggplot(pietable, aes(Item, bot))
+totalhist +
+  geom_col(color = "black", fill = "white") +
+  xlab("Number of Indicators") + 
+  ylab("Percentage") + 
+  scale_x_discrete(labels = c(0:5)) + 
+  geom_text(aes(label=bot), position=position_dodge(width=0.9), vjust=-0.25) + 
+  scale_y_continuous(limits = c(0,70)) + cleanup +
+  ggtitle("Automated Data")
+
+totalhist = ggplot(pietable, aes(Item, low))
+totalhist +
+  geom_col(color = "black", fill = "white") +
+  xlab("Number of Indicators") + 
+  ylab("Percentage") + 
+  scale_x_discrete(labels = c(0:5)) + 
+  geom_text(aes(label=low), position=position_dodge(width=0.9), vjust=-0.25) + 
+  scale_y_continuous(limits = c(0,70)) + cleanup +
+  ggtitle("Low Effort Data")
+
+
+totalhist = ggplot(pietable, aes(Item, high))
+totalhist +
+  geom_col(color = "black", fill = "white") +
+  xlab("Number of Indicators") + 
+  ylab("Percentage") + 
+  scale_x_discrete(labels = c(0:5)) + 
+  geom_text(aes(label=high), position=position_dodge(width=0.9), vjust=-0.25) + 
+  scale_y_continuous(limits = c(0,70)) + cleanup +
+  ggtitle("High Effort Data")
+
+
+```
+
+# SAD AMT Testing
+
+## Participants
+ 
+```{r amt-dev, include = FALSE}
+master = read.csv("Bot_MTURK.csv")
+
+##exclude no consent
+master1 = subset(master, Q1 == 1)
+
+##exclude people who didn't finish
+percentmiss = function(x){ sum(is.na(x)) / length(x) * 100}
+missing = apply(master1, 1, percentmiss)
+table(missing)
+master2 = subset(master1, missing < 20)
+
+final = master2[ , -1]
+
+colnames(final) = c("Tfirst", "Tlast", "Tpage", "Click","q1","q2","q3","q4",
+                     "q5","q6","q7","q8","q9","q10","q11","q12","q13","q14","q15")
+```
+
+Participants were recruited through AMT at a rate of $0.25 for the 15 question survey. 1053 initial responses were collected from Qualtrics. Three participants were excluded for failing to consent to the survey. 18 more participants were excluded for excessive missing data greater than 20%. Therefore, the final dataset included *N* = 1032 participants. Only 1000 participants were paid through AMT; however, more than 1000 rows of data were captured. This effect is due to participants opening and closing the survey (missing data) or not filling in their AMT worker ID.
+
+## Materials and Procedure
+
+The RS-14 from the previous study was used with the added manipulation check question. This version of the survey only included the consent form, RS-14, and manipulation check question. The instructions were the same as the high effort condition described above. Participants were asked to include their AMT worker ID at the end of the survey and were given a randomized code at the end of the survey to enter on the AMT website for their compensation. Every participant who entered their AMT worker ID was paid, regardless if participants were later flagged as automated or low effort participants, as this type of data was a central target of our investigation.
+
+# Results
+
+## Click Count
+
+```{r amt-click, include = FALSE}
+##set up
+#remember that zero is OK, one is a problem 
+minscale = 1
+maxscale = 7
+nsim = nrow(final)
+
+####click count check####
+totalexp = apply(final[ , 5:19], 1, function(x){sum(!is.na(x))})
+
+for(i in 1:nsim){
+  if(final$Click[i] >= totalexp[i]){
+    final$badClick[i] = 0
+  } else{
+    final$badClick[i] = 1
+  }
+}
+clicktable = table(final$badClick) / nsim*100
+Mclick = tapply(final$Click, final$badClick, mean)
+SDclick = tapply(final$Click, final$badClick, sd)
+
+####set up a table####
+tableprint2 = matrix(NA, nrow = 10, ncol = 4)
+colnames(tableprint2) = c("Item", "Acceptable $M$ ($SD$)","Flagged $M$ ($SD$)", "Percent Flagged")
+
+tableprint2[1, ] = c("Click Count", 
+                     paste(apa(Mclick[1],2), " (", apa(SDclick[1],2), ")", sep = ""),
+                     paste(apa(Mclick[2],2), " (", apa(SDclick[2],2), ")", sep = ""),
+                     apa(clicktable[2], 2))
+```
+
+The total number of clicks were examined against the number of completed items in the survey, as this dataset included missing data. Table \@ref(tab:amt-table1) indicates that approximately two percent of the dataset had click counts that would be coded as problematic. This data was likely workers using an automated form filler because the previous investigation indicated low click count was the best discriminator between form fillers and low effort responses. Table \@ref(tab:amt-table1) additionally includes the means and standard deviations for each detection indicator.  
+
+## Page Timing
+
+```{r amt-page, include = FALSE}
+####Page submit check####
+##http://iovs.arvojournals.org/article.aspx?articleid=2166061
+ourchar = 1021
+meanchar = 987
+sdchar = 118
+upperchar = meanchar + 2*sdchar
+cutoffChar = ourchar / upperchar * 60
+final$badChar = as.numeric(final$Tpage < cutoffChar)
+
+pagetable = table(final$badChar) / nsim*100
+Mpage = tapply(final$Tpage, final$badChar, mean, na.rm = T)
+SDpage = tapply(final$Tpage, final$badChar, sd, na.rm = T)
+
+tableprint2[2, ] = c("Page Timing", 
+                     paste(apa(Mpage[1],2), " (", apa(SDpage[1],2), ")", sep = ""),
+                     paste(apa(Mpage[2],2), " (", apa(SDpage[2],2), ")", sep = ""),
+                     apa(pagetable[2], 2))
+```
+
+The same formula for page timing was used as described in the detection experiment, and over half of the dataset was marked as submitting pages faster than expected given normal English reading times. 
+
+## Data Distribution
+
+### Number of scale options used
+
+```{r amt-scale, include = FALSE}
+####number of scale options used####
+OptUse = function(x){
+  length(table(as.vector(as.matrix(unname(x)))))
+}
+numOpt = apply(final[,c(5:18)],1,OptUse)
+final$numOpt = as.numeric(numOpt)
+
+for(i in 1:nsim){
+  ##more than half of the options
+  if(final$numOpt[i] >= 5){
+    final$badScaleCheck[i] = 1
+  } else{
+    final$badScaleCheck[i] = 0
+  }
+}
+
+scaletable = table(final$badScaleCheck) / nsim * 100
+Mscale = tapply(final$numOpt, final$badScaleCheck, mean, na.rm = T)
+SDscale = tapply(final$numOpt, final$badScaleCheck, sd, na.rm = T)
+
+tableprint2[3, ] = c("Number of Scale Options", 
+                     paste(apa(Mscale[1],2), " (", apa(SDscale[1],2), ")", sep = ""),
+                     paste(apa(Mscale[2],2), " (", apa(SDscale[2],2), ")", sep = ""),
+                     apa(scaletable[2], 2))
+```
+
+This scale included seven answer choices, and participants were coded as problematic if they used four or more options. Approximately twenty percent of the data was flagged for using more than half of the scale. 
+
+### Distribution comparison
+
+```{r amt-dist, include = FALSE}
+
+####Distribution Testing####
+for(i in 1:nsim){
+  temprow = as.numeric(unname(final[i,5:18 ])) 
+  utable = matrix(0, nrow = 1, ncol = length(minscale:maxscale))
+  for(x in minscale:maxscale) {
+    utable[x] = length(temprow[ temprow == x])
+  }
+  uniformest = chisq.test(utable,
+                          rescale.p = T,
+                          simulate.p.value = T)
+  
+  ##test normal distribution
+  ##first convert to z score
+  ztest = scale(temprow)
+  ##then figure out how much of the data is binned for SDs
+  ztable = matrix(0, nrow = 1, ncol = 6)
+  ztable[1] = length(ztest[ ztest <= -2 ])  
+  ztable[2] = length(ztest[ ztest > -2 & ztest <= -1  ])
+  ztable[3] = length(ztest[ ztest > -1 & ztest <= 0 ])
+  ztable[4] = length(ztest[ ztest > 0 & ztest <= 1 ])
+  ztable[5] = length(ztest[ ztest > 1 & ztest <= 2 ])
+  ztable[6] = length(ztest[ ztest > 2 ])
+  znormal = c(0.0228, 0.1359, 0.3413, 0.3413, 0.1359, 0.0228)
+  normalest = chisq.test(ztable,
+                         p = znormal*sum(ztable),
+                         rescale.p = T,
+                         simulate.p.value = T)
+  ##output return chi square values
+  final$uniform[i] = uniformest$statistic
+  final$normal[i] = normalest$statistic
+  
+  ##if uniform < normal
+  if(uniformest$statistic < normalest$statistic)
+  {
+    ##if more than 1 option
+    if (final$numOpt[i]>1)
+      {
+      final$dist[i] = 0 ##uniform is better
+    } else { ##handles when people only pick one thing
+        final$dist[i] = 2
+      }
+    
+  }
+  
+  ##if uniform >= normal
+  if(uniformest$statistic >= normalest$statistic)
+  {
+    ##if more than 1 option
+    if (final$numOpt[i]>1)
+    {
+      final$dist[i] = 1 ##normal is better
+    } else { ##handles when people only pick one thing
+      final$dist[i] = 2
+    }
+    
+  }
+    
+
+  #0 means uniform fits better
+  #1 means normal fits better
+  #2 means only chose one scale option
+
+  }## end of for loop
+
+final$dist = factor(final$dist,
+                    levels = 0:2,
+                    labels = c("uniform", "normal", "undecided"))
+table(final$dist) / nsim * 100
+
+for(i in 1:nsim){
+  if(final$dist[i] == "uniform"){
+    final$badDist[i] = 1
+  }
+  if (final$dist[i] == "normal"){
+    final$badDist[i] = 0
+  } else if(final$dist[i] == "undecided") {
+    final$badDist[i] = 0
+  }
+}
+disttable = table(final$badDist) / nsim*100
+
+tableprint2[4, ] = c("Distribution", 
+                     "-",
+                     "-",
+                     apa(disttable[2], 2))
+```
+
+As described above, each row was coded for the best fitting distribution for either normal or uniform data. Rows that included only one answer choice selection were coded as undecided, which were combined with data fitting normal distributions as non problematic for coding purposes. Less than two percent of the data was coded as uniform, while approximately 94 and 5 percent were coded as normal or undecided.
+
+## Manipulation Check
+
+```{r amt-mc, include = FALSE}
+
+####manipulation check question####
+corans = 7
+
+for(i in 1:nsim){
+if(final$q15[i] == 7) 
+{ final$badMC[i] = 0
+  } else { final$badMC[i] = 1} 
+}
+
+mctable = table(final$badMC) / nsim * 100
+
+tableprint2[5, ] = c("Manipulation Check", 
+                     "-",
+                     "-",
+                     apa(mctable[2], 2))
+
+```
+
+The manipulation check question was flagged if the participant did not indicate the correct answer choice. While failure to correctly answer a manipulation check has previously been taken as a justification for participant exclusion alone, we used manipulation checks in conjunction with other detection measures (see below). In the AMT sample, approximately five percent of the data was marked as problematic. 
+
+## Total Detection
+
+```{r amt-total, include = FALSE}
+
+####total up####
+final$badTotal = as.numeric(final$badChar) + 
+  as.numeric(final$badClick) + 
+  as.numeric(final$badDist) + 
+  as.numeric(final$badScaleCheck) + 
+  as.numeric(final$badMC)
+
+totaltable = table(final$badTotal) / nsim * 100
+
+tableprint2[6, ] = c("0 Indicators", 
+                     "-",
+                     "-",
+                     apa(totaltable[1], 2))
+tableprint2[7, ] = c("1 Indicators", 
+                     "-",
+                     "-",
+                     apa(totaltable[2], 2))
+tableprint2[8, ] = c("2 Indicators", 
+                     "-",
+                     "-",
+                     apa(totaltable[3], 2))
+tableprint2[9, ] = c("3 Indicators", 
+                     "-",
+                     "-",
+                     apa(totaltable[4], 2))
+tableprint2[10, ] = c("4 Indicators", 
+                     "-",
+                     "-",
+                     apa(totaltable[5], 2))
+
+twoset = subset(final, badTotal == 2)
+
+```
+
+All of these indicators were totaled to create an overall score of detection for each row of data. As shown in Table \@ref(tab:amt-table1), 86 percent of the data had a score of zero or one problem, while the other 14 percent of data included at least two markers, as our suggested cut off when using five indicators. 
+
+```{r amt-table1, echo = FALSE, results='asis'}
+
+apa_table(tableprint2,
+          align = c("l", rep("c", 3)),
+          caption = "Summary statistics and percent flagged for AMT testing"
+          )
+```
+
+```{r scip-graphs-amt, eval=FALSE, include=FALSE}
+clickbar = ggplot(final, aes(as.factor(badClick), Click))
+clickbar + 
+  stat_summary(fun.y = mean, 
+               geom = "bar", 
+               fill = "White", 
+               color = "Black") +
+  stat_summary(fun.data = mean_cl_normal, 
+               geom = "errorbar", 
+               width = .2, 
+               position = "dodge") +
+  cleanup +
+  xlab("Data Type") +
+  ylab("Click Count") +
+  scale_x_discrete(labels = c("Acceptable", "Flagged"))
+
+pagebar = ggplot(final, aes(as.factor(badChar), Tpage))
+pagebar + 
+  stat_summary(fun.y = mean, 
+               geom = "bar", 
+               fill = "White", 
+               color = "Black") +
+  stat_summary(fun.data = mean_cl_normal, 
+               geom = "errorbar", 
+               width = .2, 
+               position = "dodge") +
+  cleanup +
+  xlab("Data Type") +
+  ylab("Page Timing") +
+  scale_x_discrete(labels = c("Acceptable", "Flagged"))
+
+scalebar = ggplot(final, aes(as.factor(badScaleCheck), numOpt))
+scalebar + 
+  stat_summary(fun.y = mean, 
+               geom = "bar", 
+               fill = "White", 
+               color = "Black") +
+  stat_summary(fun.data = mean_cl_normal, 
+               geom = "errorbar", 
+               width = .2, 
+               position = "dodge") +
+  cleanup +
+  xlab("Data Type") +
+  ylab("Number of Scale Options") +
+  scale_x_discrete(labels = c("Acceptable", "Flagged"))
+
+pietable = as.data.frame(tableprint2[6:10, ])
+pietable$percent = as.numeric(as.character(pietable$`Percent Flagged`))
+
+totalhist = ggplot(pietable, aes(Item, percent))
+totalhist +
+  geom_col(color = "black", fill = "white") +
+  xlab("Number of Indicators") + 
+  ylab("Percentage") + 
+  scale_x_discrete(labels = c(0:4)) + 
+  geom_text(aes(label=percent), position=position_dodge(width=0.9), vjust=-0.25) + 
+  scale_y_continuous(limits = c(0,60)) + cleanup
+
+```
+
+
+## Differences in Acceptable and Detected Data
+
+```{r diff-test, eval=FALSE, include=FALSE}
+##do they affect things
+final$totalRS = apply(final[ , 5:18], 1, sum)
+final$condition = as.numeric(final$badTotal >= 2)
+good = subset(final, condition == 0)
+bad = subset(final, condition == 1)
+
+library(MOTE)
+
+goodvbad = matrix(NA, nrow = 1000, ncol = 150)
+colnames(goodvbad) = c("g1", "g2", "g3", "g4", "g5", "g6", "g7", "g8", "g9", "g10", "g11", "g12", "g13", "g14", "gtot", 
+             "b1", "b2", "b3", "b4", "b5", "b6", "b7", "b8", "b9", "b10", "b11", "b12", "b13", "b14", "btot", 
+             "g1SD", "g2SD", "g3SD", "g4SD", "g5SD", "g6SD", "g7SD", "g8SD", "g9SD", "g10SD", "g11SD", "g12SD", "g13SD", "g14SD", "gtotSD", 
+             "b1SD", "b2SD", "b3SD", "b4SD", "b5SD", "b6SD", "b7SD", "b8SD", "b9SD", "b10SD", "b11SD", "b12SD", "b13SD", "b14SD", "btotSD",
+             "d1", "d2", "d3", "d4", "d5", "d6", "d7", "d8", "d9", "d10", "d11", "d12", "d13", "d14", "dtot", 
+             "dlow1", "dlow2", "dlow3", "dlow4", "dlow5", "dlow6", "dlow7", "dlow8", "dlow9", "dlow10", "dlow11", "dlow12", "dlow13", "dlow14", "dtotlow", 
+             "dhigh1", "dhigh2", "dhigh3", "dhigh4", "dhigh5", "dhigh6", "dhigh7", "dhigh8", "dhigh9", "dhigh10", "dhigh11", "dhigh12", "dhigh13", "dhigh14", "dtothigh", 
+             "t1", "t2", "t3", "t4", "t5", "t6", "t7", "t8", "t9", "t10", "t11", "t12", "t13", "t14", "ttot", 
+             "df1", "df2", "df3", "df4", "df5", "df6", "df7", "df8", "df9", "df10", "df11", "df12", "df13", "df14", "dftot", 
+             "p1", "p2", "p3", "p4", "p5", "p6", "p7", "p8", "p9", "p10", "p11", "p12", "p13", "p14", "ptot"
+             )
+
+for(i in 1:1000){
+  
+##this part creates the smaller datasets to compare against
+##using n = 100 for each group
+  good2 = sample(1:nrow(good), 100)
+  goodfinal = good[good2 , ]
+  
+  bad2 = sample(1:nrow(bad), 100)
+  badfinal = bad[bad2, ]
+
+Mgood = apply(goodfinal[ , c(5:18, 30)], 2, mean, na.rm = T)
+SDgood = apply(goodfinal[ , c(5:18, 30)], 2, sd, na.rm = T)
+Ngood = apply(goodfinal[ , c(5:18, 30)], 2, function(x){length(na.omit(x))})
+
+Mbad = apply(badfinal[ , c(5:18, 30)], 2, mean, na.rm = T)
+SDbad = apply(badfinal[ , c(5:18, 30)], 2, sd, na.rm = T)
+Nbad = apply(badfinal[ , c(5:18, 30)], 2, function(x){length(na.omit(x))})
+
+##loop to figure out how each question is affected
+dvalues = 1:15
+dlowvalues = 1:15
+dhighvalues = 1:15
+tvalues = 1:15
+dfvalues = 1:15
+pvalues = 1:15
+
+for (r in 1:15){
+  
+  effsize = d.ind.t(Mgood[r], Mbad[r], SDgood[r], SDbad[r], Ngood[r], Nbad[r], a = .05)
+  dvalues[r] = effsize$d
+  dlowvalues[r] = effsize$dlow
+  dhighvalues[r] = effsize$dhigh
+  tvalues[r] = effsize$t
+  dfvalues[r] = effsize$df
+  pvalues[r] = effsize$p
+  
+} ##end question loop
+
+goodvbad[i, ] = c(Mgood, Mbad, SDgood, SDbad, dvalues, dlowvalues, dhighvalues, tvalues, dfvalues, pvalues)
+
+}##end loop to simulate good versus bad
+
+goodvbad = write.csv(goodvbad, "good_bad_comparison.csv")
+```
+
+```{r diff-table, echo = FALSE, results = 'asis'}
+goodvbad = read.csv("good_bad_comparison.csv")
+goodvbad$averaged = apply(goodvbad[ , 61:76], 1, mean)
+goodvbad$averaget = apply(goodvbad[ , 107:121], 1, mean)
+goodvbad$averagedf = apply(goodvbad[ , 122:136], 1, mean)
+goodvbad$averagep = apply(goodvbad[ , 137:151], 1, mean)
+overalldiff = apply(goodvbad[ , 152:155], 2, mean)
+
+tableprint3 = matrix(NA, nrow = 15, ncol = 7)
+colnames(tableprint3) = c("Item", "Acceptable $M$ ($SD$)", "Flagged $M$ ($SD$)", "$d$", "$95 CI$", "$t$", "$p$")
+
+Mgood = apply(goodvbad[, 2:16], 2, mean)
+Mbad = apply(goodvbad[, 17:31], 2, mean)
+SDgood = apply(goodvbad[, 32:46], 2, sd)
+SDbad = apply(goodvbad[, 47:61], 2, sd)
+
+Md = apply(goodvbad[, 62:76], 2, mean)
+Mdlow = apply(goodvbad[, 77:91], 2, mean)
+Mdhigh = apply(goodvbad[, 92:106], 2, mean)
+
+Mt = apply(goodvbad[, 107:121], 2, mean)
+Mdf = apply(goodvbad[, 122:136], 2, mean)
+Mp = apply(goodvbad[, 137:151], 2, mean)
+
+for (q in 1:length(Mp)) {
+  Mp[q] = p.value(Mp[q])
+}
+
+tableprint3[, 1] = c("Item 1", "Item 2", "Item 3", "Item 4", "Item 5", "Item 6", "Item 7", "Item 8", "Item 9", "Item 10", "Item 11", "Item 12", "Item 13", "Item 14", "Total Score")
+tableprint3[ , 2] = c(paste(apa(Mgood, 2), " (", apa(SDgood,2), ")", sep = ""))
+tableprint3[ , 3] = c(paste(apa(Mbad, 2), " (", apa(SDbad,2), ")", sep = ""))
+tableprint3[ , 4] = c(apa(Md, 2))
+tableprint3[ , 5] = c(paste(apa(Mdlow, 2), " - ", apa(Mdhigh,2), sep = ""))
+tableprint3[ , 6] = c(apa(Mt, 2))
+tableprint3[ , 7] = c(Mp)
+
+apa_table(tableprint3,
+          align = c("l", rep("c", 6)),
+          caption = "Differences in mean scores for flagged and acceptable data",
+          note = "All values are averaged scores over 1000 interations."
+          )
+```
+
+Data were dichotomized into rows that would typically be included in final analyses (i.e. less than two indicators) and rows that would be excluded as low effort and automated data (i.e. two or more indicators). The dataset for acceptable data was much larger (*n* = 889) than the detected data (*n* = 143), and therefore, we randomly selected *n* = 100 for each group to examine differences in item and total score means. We bootstrapped 1000 datasets of the randomly sampled groups, and Table \@ref(tab:diff-table) includes the average means and standard deviations. Further, independent *t*-tests were used to compare the item and total means. Average *t*-values, *p*-values, $d_s$, and non-centralized *95% CI* for $d_s$ [@Buchanan2017; @Lakens2013; @Cumming2013] are included in Table \@ref(tab:diff-table). The detected data portrayed much lower average scores than the high effort data, with an average effect size of $d_s$ = `r apa(overalldiff[1],2)` across all items and total scores, average $t$(`r apa(overalldiff[3],2)`) = `r apa(overalldiff[2], 2)`, *p* < .001. 
+
+## Sensitivity Analysis
+
+```{r sense-null, eval=FALSE, include=FALSE}
+
+##randomly pull groups and see if we get different results
+####sensitivity analysis####
+proportion = nrow(bad) / nrow(final)
+seprop = sqrt(proportion * (1-proportion) / nrow(final))
+LLprop = proportion - 1.96*seprop
+ULprop = proportion + 1.96*seprop
+
+##loop over sample size 
+samplesize = seq(20, 200, 10)
+sensematrix = matrix(NA, nrow = 1000*length(samplesize), ncol = 19)
+colnames(sensematrix) = c("N", "Mfake1", "Mfake2", "Mfake1w", "Mfake2w", 
+                          "SDfake1", "SDfake2", "SDfake1w", "SDfake2w",
+                          "d", "dw", "dlow", "dhigh", "dloww", "dhighw",
+                          "t", "tw", "p", "pw")
+row = 1
+
+for (q in 1:length(samplesize)) { ##loop over the sample size
+  
+  for (p in 1:1000) { ##do this 1000 times 
+    
+    randompercent = runif(1, LLprop, ULprop)
+
+    ##fakegroup1 
+    good3 = sample(1:nrow(good), round((1-randompercent)*samplesize[q], 0))
+    bad3 = sample(1:nrow(bad), round((randompercent)*samplesize[q], 0))
+    fakedata1 = rbind(good[good3, ], bad[bad3, ])
+
+    ##fakegroup2
+    good4 = sample(1:nrow(good), round((1-randompercent)*samplesize[q], 0))
+    bad4 = sample(1:nrow(bad), round((randompercent)*samplesize[q], 0))
+    fakedata2 = rbind(good[good4, ], bad[bad4, ])
+
+    withbad = d.ind.t(mean(fakedata1$totalRS, na.rm = T), mean(fakedata2$totalRS, na.rm = T),
+                      sd(fakedata1$totalRS, na.rm = T), sd(fakedata2$totalRS, na.rm = T),
+                      length(na.omit(fakedata1$totalRS)), length(na.omit(fakedata2$totalRS)), a = .05)
+    
+    withoutbad = d.ind.t(mean(good[good3, ]$totalRS, na.rm = T), mean(good[good4, ]$totalRS, na.rm = T),
+                         sd(good[good3, ]$totalRS, na.rm = T), sd(good[good4, ]$totalRS, na.rm = T),
+                         length(na.omit(good[good3, ]$totalRS)), length(na.omit(good[good4, ]$totalRS)), a = .05)
+    
+    sensematrix[row, ] = c(samplesize[q], withbad$M1, withbad$M2, withoutbad$M1, withoutbad$M2,
+                         withbad$sd1, withbad$sd2, withoutbad$sd1, withoutbad$sd2, 
+                         withbad$d, withoutbad$d, withbad$dlow, withbad$dhigh, withoutbad$dlow, withoutbad$dhigh,
+                         withbad$t, withoutbad$t, withbad$p, withoutbad$p)
+    row = row + 1
+    
+    
+  } ##end 1000 loop
+
+} ## end n loop
+
+write.csv(sensematrix, "sensitivity_results.csv")
+
+```
+
+```{r sense-alt, eval=FALSE, include=FALSE}
+####let's pretend they are different####
+##randomly pull groups and see if we get different results
+##sensitivity analysis
+proportion = nrow(bad) / nrow(final)
+seprop = sqrt(proportion * (1-proportion) / nrow(final))
+LLprop = proportion - 1.96*seprop
+ULprop = proportion + 1.96*seprop
+
+##loop over sample size 
+samplesize = seq(20, 200, 10)
+sensematrix2 = matrix(NA, nrow = 1000*length(samplesize), ncol = 19)
+colnames(sensematrix2) = c("N", "Mfake1", "Mfake2", "Mfake1w", "Mfake2w", 
+                          "SDfake1", "SDfake2", "SDfake1w", "SDfake2w",
+                          "d", "dw", "dlow", "dhigh", "dloww", "dhighw",
+                          "t", "tw", "p", "pw")
+row = 1
+
+for (q in 1:length(samplesize)) { ##loop over the sample size
+  
+  for (p in 1:1000) { ##do this 1000 times 
+    
+    randompercent = runif(1, LLprop, ULprop)
+    
+    ##fakegroup1 
+    good3 = sample(1:nrow(good), round((1-randompercent)*samplesize[q], 0))
+    bad3 = sample(1:nrow(bad), round((randompercent)*samplesize[q], 0))
+    tempgood = good[good3, ]
+    tempgood$totalRS = tempgood$totalRS + 14
+    fakedata1 = rbind(tempgood, bad[bad3, ])
+    
+    ##fakegroup2
+    good4 = sample(1:nrow(good), round((1-randompercent)*samplesize[q], 0))
+    bad4 = sample(1:nrow(bad), round((randompercent)*samplesize[q], 0))
+    fakedata2 = rbind(good[good4, ], bad[bad4, ])
+    
+    withbad = d.ind.t(mean(fakedata1$totalRS, na.rm = T), mean(fakedata2$totalRS, na.rm = T),
+                      sd(fakedata1$totalRS, na.rm = T), sd(fakedata2$totalRS, na.rm = T),
+                      length(na.omit(fakedata1$totalRS)), length(na.omit(fakedata2$totalRS)), a = .05)
+    
+    withoutbad = d.ind.t(mean(tempgood$totalRS, na.rm = T), mean(good[good4, ]$totalRS, na.rm = T),
+                         sd(tempgood$totalRS, na.rm = T), sd(good[good4, ]$totalRS, na.rm = T),
+                         length(na.omit(tempgood$totalRS)), length(na.omit(good[good4, ]$totalRS)), a = .05)
+    
+    sensematrix2[row, ] = c(samplesize[q], withbad$M1, withbad$M2, withoutbad$M1, withoutbad$M2,
+                           withbad$sd1, withbad$sd2, withoutbad$sd1, withoutbad$sd2, 
+                           withbad$d, withoutbad$d, withbad$dlow, withbad$dhigh, withoutbad$dlow, withoutbad$dhigh,
+                           withbad$t, withoutbad$t, withbad$p, withoutbad$p)
+    row = row + 1
+    
+    
+  } ##end 1000 loop
+  
+} ## end n loop
+
+write.csv(sensematrix2, "sensitivity_results2.csv")
+```
+
+```{r sense-graph, echo=FALSE, fig.cap="Difference in effect size for sensitivity analysis in null and alternative scenarios across sample size. Error bars represent 95% confidence interval of bootstrapped difference scores.", fig.height=5, fig.width=6}
+
+final$condition = as.numeric(final$badTotal >= 2)
+good = subset(final, condition == 0)
+bad = subset(final, condition == 1)
+proportion = nrow(bad) / nrow(final)
+seprop = sqrt(proportion * (1-proportion) / nrow(final))
+LLprop = proportion - 1.96*seprop
+ULprop = proportion + 1.96*seprop
+
+sense1 = read.csv("sensitivity_results.csv")
+sense1$ddiff = abs(sense1$d - sense1$dw)
+Nddiff = with(sense1, tapply(ddiff, N, mean))
+
+sense2 = read.csv("sensitivity_results2.csv")
+sense2$ddiff = abs(sense2$d - sense2$dw)
+Rddiff = with(sense2, tapply(ddiff, N, mean))
+
+graphdata = as.data.frame(cbind("N" = sense1$N, 
+                  "Nulld" = sense1$ddiff, 
+                  "Altd" = sense2$ddiff))
+library(reshape)
+longdata = melt(graphdata,
+                id = "N",
+                measured = c("Nulld", "Altd"))
+
+ggplot(longdata, aes(N, value, color = variable)) +
+  cleanup +
+  xlab("Sample Size") +
+  ylab("Difference in d value") +
+  stat_summary(fun.y = mean,
+               geom = "point") +
+  stat_summary(fun.y = mean,
+               geom = "line", 
+               aes(group = variable)) +
+  stat_summary(fun.data = mean_cl_normal,
+               geom = "errorbar",
+               width = .2) +
+  scale_color_manual(name = "Scenario", 
+                     labels = c("Null", "Alternative"),
+                     values = c("gray20", "gray80")) +
+  coord_cartesian(ylim = c(0, .4))
+
+```
+
+A sensitivity analysis was included in our preregistered plan; however, no demographic information was collected as part of the survey. To analyze the effects of low effort and automated data on real analyses, we created two scenarios sampling from the AMT data: 1) wherein the null hypothesis was likely and 2) wherein an alternative hypothesis was likely. These analyses were calculated over a range of sample sizes, starting at *n* = 20 for each group and increasing in units of 10 until a sample size of *n* = 200 for each group. At each sample size, 1000 bootstraps were calculated. Within each bootstrapped sample, a random proportion of problematic data was included in each group. First, a confidence interval around the proportion of problematic data was calculated to be `r apa(as.numeric(LLprop),2,F)` to `r apa(as.numeric(ULprop),2,F)`. Then, a random proportion was selected from that range. The selected proportion was used as the sample size proportion problematic data for each *n* (*p*\**n*), and likewise for acceptable data for each *n* ((1-*p*)\**n*). This process was used for both groups, resulting in two groups of data, each with a specific sample size and proportion of problematic data. The dataset sampled included several missing data points, thus, those scores were dropped when appropriate. 
+
+The total scores were then compared using a $d_s$ for independent designs. Second, the problematic data was excluded and the $d_s$ values were calculated again. The data were collected with no experimental manipulation, and therefore, this simulation was not expected to show large differences between groups (supporting the null hypothesis). To simulate the effects of problematic data on an alternative hypothesis, 14 points (i.e., a one point change for each item on the RS-14 scale, thus, a total of 14-point change) was added to the total score of the acceptable data only in one of the randomized groupings. This addition pushed apart the means of the acceptable data, with the assumption that the problematic data would not show this manipulation. The same $d_s$ values were calculated comparing bootstrapped groupings.   
+
+To interpret these analyses, the absolute value change in effect sizes was examined across sample size. The average difference values between tests with problematic data and tests without are presented in Figure \@ref(fig:sense-graph) across sample size. The results from these comparisons indicated that problematic data has a small effect when the null hypothesis was more likely, which decreases across sample size,  $\Delta d_s$ = `r apa(mean(Nddiff), 2)`. However, when the alternative hypothesis was more likely, the effect of problematic data increases wherein $\Delta d_s$ = `r apa(mean(Rddiff), 2)` change in effect size was found, which was more consistent across values of *n*.  This result implies that the inclusion of problematic data can decrease the power of a statistical test by under-representing the effect size in the study. The complete detection algorithm is provided to researchers on our OSF page and part of a completely reproducible manuscript in *R* markdown. 
+
+```{r SAD-function, eval=FALSE, include=FALSE}
+## requires the 'moments' package
+##      install.packages("moments")
+## args: Dataframe of scale values, with each row being a participant and each column being a scale question
+## args: vector of response time/page time for each participant
+## args: min: minimum value of scale
+## args: max: maximum value of scale
+## args: partno: vector of corresponding participant numbers
+## args: clicks: click count column, outputted by qualtrics
+## args: manvec: vector of manipulation check question responses
+## args: mancor: correct answer of manipulation check
+## returns: table of identified cases, where True equals an identified automated response
+## creates a vector "identified" of True and False, where True identifies specific cases to note 
+##     specific participants
+## creates a subsetted dataframe "subdata" excluding identified cases
+
+
+SAD = function(dat,rt,min,max,partno,click, manvec,mancor){
+  rt = as.numeric(unlist(rt))
+  click = as.numeric(unlist(click))
+  manvec = as.numeric(unlist(click))
+  dat = as.data.frame(dat)
+  
+  #number of scale options used
+  OptUse = function(x){
+    length(table(as.vector(as.matrix(unname(x)))))
+  }
+  numOpt = apply(dat,1,OptUse)
+  numOpt = as.numeric(numOpt)
+  nsim = length(numOpt)
+  temp = rep(0, length(numOpt))
+  for(i in 1:nsim){
+    ##more than half of the options
+    if(numOpt[i] >= 5){
+      temp[i] = 1
+    } else{
+      temp[i] = 0
+    }
+  }
+  badScaleCheck = as.numeric(temp)
+  
+  #response/page time
+  ourchar = 1021
+  meanchar = 987
+  sdchar = 118
+  upperchar = meanchar + 2*sdchar
+  cutoffChar = ourchar / upperchar * 60
+  badChar = rt
+  nsim = length(badChar)
+  for(i in 1:nsim){
+    if(badChar[i] < cutoffChar){
+      badChar[i] = 1
+    } else{
+      badChar[i] = 0
+    }
+  }
+  badChar = as.numeric(badChar)
+  
+  ####click count check####
+  ##remember to include the manip check 
+  totalexp = apply(dat,1, function(x){sum(!is.na(x))})
+  nsim = length(click)
+  for(i in 1:nsim){
+    if(click[i] >= totalexp[i]){
+      click[i] = 0
+    } else{
+      click[i] = 1
+    }
+  }
+  badClick = as.numeric(click)
+
+  ####manipulation check question manip####
+  nsim = length(manvec)
+  for(i in 1:nsim){
+    if(manvec[i] == mancor) 
+    { manvec[i] = 0
+    } else { manvec[i] = 1} 
+  }
+  badMC = as.numeric(manvec)
+  
+  ####Distribution Testing####
+  uniform = rep(5,length(dat))
+  normal = rep(5, length(dat))
+  dist = rep(5, length(dat))
+  nsim = nrow(dat)
+  for(i in 1:nsim){
+    temprow = as.numeric(unname(dat[i,])) 
+    utable = matrix(0, nrow = 1, ncol = length(min:max))
+    for(x in min:max) {
+      utable[x] = length(temprow[ temprow == x])
+    }
+    uniformest = chisq.test(utable,
+                            rescale.p = T,
+                            simulate.p.value = T)
+    ##test normal distribution
+    ##first convert to z score
+    ztest = scale(temprow)
+    ##then figure out how much of the data is binned for SDs
+    ztable = matrix(0, nrow = 1, ncol = 6)
+    ztable[1] = length(ztest[ ztest <= -2 ])  
+    ztable[2] = length(ztest[ ztest > -2 & ztest <= -1  ])
+    ztable[3] = length(ztest[ ztest > -1 & ztest <= 0 ])
+    ztable[4] = length(ztest[ ztest > 0 & ztest <= 1 ])
+    ztable[5] = length(ztest[ ztest > 1 & ztest <= 2 ])
+    ztable[6] = length(ztest[ ztest > 2 ])
+    znormal = c(0.0228, 0.1359, 0.3413, 0.3413, 0.1359, 0.0228)
+    normalest = chisq.test(ztable,
+                           p = znormal*sum(ztable),
+                           rescale.p = T,
+                           simulate.p.value = T)
+    ##output return chi square values
+    uniform[i] = uniformest$statistic
+    normal[i] = normalest$statistic
+    ##if uniform < normal
+    if(uniformest$statistic < normalest$statistic)
+    {
+      ##if more than 1 option
+      if (numOpt[i]>1)
+      {
+        dist[i] = 0 ##uniform is better
+      } else { ##handles when people only pick one thing
+        dist[i] = 2
+      }
+    }
+    ##if uniform >= normal
+    if(uniformest$statistic >= normalest$statistic)
+    {
+      ##if more than 1 option
+      if (numOpt[i]>1)
+      {
+        dist[i] = 1 ##normal is better
+      } else { ##handles when people only pick one thing
+        dist[i] = 2
+      }
+      
+    }
+    #0 means uniform fits better
+    #1 means normal fits better
+    #2 means only chose one scale option
+  }## end of for loop
+  ####distribution check####
+  for(i in 1:nsim){
+    if(dist[i] == 0){
+      dist[i] = 1
+    }
+    if (dist[i] == 1){
+      dist[i] = 0
+    } else if(dist[i] == 2) {
+      dist[i] = 0
+    }
+  }
+  badDist = as.numeric(dist)
+  
+  ####total up####
+  badTotal = as.numeric(final$badChar) + 
+    as.numeric(final$badClick) + 
+    as.numeric(final$badDist) + 
+    as.numeric(final$badScaleCheck) + 
+    as.numeric(final$badMC)
+  
+  nsim = length(badTotal)
+  for(i in 1:nsim){
+    if(badTotal[i]==2|badTotal[i]==3|badTotal[i]==4|badTotal[i]==5){
+      badTotal[i] = "*"
+    } else { badTotal[i] = " " }
+  }
+  participant = 1:nrow(dat)
+  endat <<- as.data.frame(cbind(participant, badTotal))
+  return(endat)
+  
+} #end function
+
+
+
+#########################################################################################
+#########################################################################################
+
+##testing on Mturk
+turkData = read.csv("Bot_MTURK.csv")
+##exclude no consent
+master1 = subset(turkData, Q1 == 1)
+##exclude people who didn't finish
+percentmiss = function(x){ sum(is.na(x)) / length(x) * 100}
+missing = apply(master1, 1, percentmiss)
+table(missing)
+master2 = subset(master1, missing < 20)
+colnames(master2) = c("consent", "Tfirst", "Tlast", "Tpage", "Click","q1","q2","q3","q4",
+                    "q5","q6","q7","q8","q9","q10","q11","q12","q13","q14","q15")
+master2$partno = 1:nrow(master2)
+
+
+
+SAD(dat = master2[,c(6:19)], 
+    rt = master2$Tpage,
+    min = 1,
+    max = 7,
+    partno = master2$partno,
+    click = master2$Click,
+    manvec = master2$q15,
+    mancor = 7
+    )
+
+View(endat)
+table(endat$badTotal) #where star is bad, and a blank space is okay
+```
+
+#Discussion
+
+Amazon Mechanical Turk (AMT) is a popular marketplace to collect data quickly and cheaply, serving as an invaluable tool for researchers with constrained budgets and time. Hundreds of articles are published annually utilize AMT, with many being published in high impact academic journals [@Chandler2017]. While the quality of data have been initially questioned, reliability of AMT data has shown to be sufficient [@Goodman2012; @Gosling2004; @Krantz2000; @Mason2012; @Paolacci2010; @Suri2011]. We must ensure the data quality of our data samples, as this facet impacts the reliability of research findings. This type of screening is an important methodological step in any area of research. For instance, the process of detecting and excluding outlying and influential cases is common in statistical analyses. Test statistics, such as *t* and *F*, focus on optimizing the quality of signal, while attenuating corresponding statistical noise. Participant screening methods aimed at identifying low effort responses or potentially automated responses will ensure that the signal to noise ratio is the best representation of the phenomena studied. 
+  
+Multiple checks were employed to differentiate automated, random/low effort, and  high effort responses. Comparisons between these three conditions were made on the basis of click counts, response latencies, distribution fit, and skewness and kurtosis. The characteristics from each condition were then utilized for the development of an adaptable *R* function to identify potential automated responses, as well as low effort responses. Identified cases were subsequently used in the context of a sensitivity analysis to warrant exclusion from statistical analyses in a sample of AMT participants. Response time has been noted to follow a power law, leading to difficulties in predicting the necessary time required to complete certain tasks [@Ipeirotis2010]. Page response times in the current project were calculated based on minimum reading speed [@Trauzettel-Klosinski2012]. Given this difficulty and mixed research regarding the utilization of response time as a screening method, page submit time was used in conjunction with other screening methods.
+
+@Zhu2010 looked at various patterns of participant responses and found that low quality or effort responses was linked to what is referred to as "low-entropy" patterns of response. Essentially, this pattern of data is characteristic of participants who choose a low or minimum number of scale options, for instance switching back and forth between only two scale options. Considering this finding, the number of utilized scale options were also used as a criterion. However, we showed that not all low-effort responses follow this pattern, as both automated and low effort data were shown to use the majority of scale options. Depending on a given scale or hypothesis, researchers might also expect a low-varying range of scale options. Uniform distribution fit was also more likely to occur with low effort and automated data compared to high effort data.
+  
+Previous literature has noted that the exclusion of participants based on response time or manipulation checks alone may not be sufficient. We agree that any one measure by itself is not sufficient to exclude participants. For instance, when taken alone, the page time submit identifier identified more than half of participants as problematic. A more nuanced approach to participant screening is appropriate, analogous to the multiple diagnostic checks used in general linear models to examine model assumptions or the presence of outliers and influential cases. By using multiple indicators, we can more accurately identify low effort participants. The current project has developed an *R* function that can be adapted for researchers using surveys as a research tool. This function is available in the supplementary materials and can be adapted to various surveys where valuable information is collected, such as timing and click counts. We suggest the use of participant screening methods as an adaptive one, based on specific research design, methodology, and hypotheses. We acknowledge that there may not be a "one size fits all" solution. However, by using multiple checks available at hand, or relevant to specific hypotheses, we can begin a more transparent process of screening out noise. A straightforward and practical guideline for researchers collecting data from crowd-sourcing platforms would be to collect 15 percent more participants than originally planned, in anticipation of excluding low effort and automated responses. The relevance of better statistical checks prior to main analyses extends to many areas, as high quality data is the coin of the realm in quantitative research.
+
+Appropriate participant screening methods, especially in the case of online data collection, is integral in psychological science. With a lack of internal control, researchers must be aware and ensure that the quality of data being received matches the quality of data expected out of participants, beyond that of simply reproducing effects typically found in laboratory settings. Optimizing the signal to noise ratio through the use of a multiple check participant screening method can be an invaluable tool to researchers, and can be implemented in tandem to the normal pipeline of pre-analysis checks, such as checks for missing data, statistical outliers, and model assumptions. Last, the SAD screening procedure may be best implemented as part of pre-registered plan of data screening to best ensure transparency in research process from data collection to statistical analysis [@VantVeer2016].
+
+\newpage
+
+# References
+
+\setlength{\parindent}{-0.5in}
+\setlength{\leftskip}{0.5in}

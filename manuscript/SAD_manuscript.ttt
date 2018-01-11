@@ -1,0 +1,100 @@
+\begin{table*}[hbt]
+\ifnextchar[{\eatarg}{}
+[tbp]
+\begin{center}
+\begin{threeparttable}
+\caption{\label{tab:sad-table1}Summary statistics and percent flagged for SAD development}
+\begin{tabular}{lccc}
+\toprule
+Item & \multicolumn{1}{c}{Bot Data} & \multicolumn{1}{c}{Low Effort Data} & \multicolumn{1}{c}{Real Data}\\
+\midrule
+Click Count & 1.18 (1.65) & 17.66 (3.99) & 17.93 (5.32)\\
+Flagged Click Count & 100.0 & 0.0 & 0.0\\
+Page Timing & 40.99 (31.02) & 32.49 (12.76) & 89.78 (89.93)\\
+Flagged Page Timing & 68.1 & 89.4 & 8.5\\
+Skewness & -0.08 (0.38) & 0.09 (0.35) & -0.40 (0.65)\\
+Kurtosis & 1.95 (0.38) & 2.10 (0.46) & 2.58 (1.50)\\
+Number of Scale Points & 6.13 (0.72) & 6.22 (1.04) & 3.74 (1.16)\\
+Flagged Scale Points & 97.9 & 94.7 & 24.5\\
+Flagged Distribution & 23.4 & 27.7 & 0.0\\
+Flagged Manipulation Check & 85.1 & 94.7 & 3.2\\
+0 Indicators & 0.0 & 0.0 & 66.0\\
+1 Indicators & 0.0 & 1.1 & 31.9\\
+2 Indicators & 6.4 & 16.0 & 2.1\\
+3 Indicators & 31.9 & 58.5 & 0.0\\
+4 Indicators & 42.6 & 24.5 & 0.0\\
+5 Indicators & 19.1 & 0.0 & 0.0\\
+\bottomrule
+\addlinespace
+\end{tabular}
+\begin{tablenotes}[para]
+\textit{Note.} Mean values presented with standard deviations in parentheses.
+\end{tablenotes}
+\end{threeparttable}
+\end{center}
+\end{table*}
+\efloatseparator
+ 
+\begin{table*}[hbt]
+\ifnextchar[{\eatarg}{}
+[tbp]
+\begin{center}
+\begin{threeparttable}
+\caption{\label{tab:amt-table1}Summary statistics and percent flagged for AMT testing}
+\begin{tabular}{lccc}
+\toprule
+Item & \multicolumn{1}{c}{Acceptable $M$ ($SD$)} & \multicolumn{1}{c}{Flagged $M$ ($SD$)} & \multicolumn{1}{c}{Percent Flagged}\\
+\midrule
+Click Count & 21.31 (12.37) & 2.35 (4.07) & 2.23\\
+Page Timing & 118.68 (449.71) & 33.25 (10.86) & 54.17\\
+Number of Scale Options & 3.00 (0.86) & 5.37 (0.61) & 19.67\\
+Distribution & - & - & 1.65\\
+Manipulation Check & - & - & 5.04\\
+0 Indicators & - & - & 33.91\\
+1 Indicators & - & - & 52.23\\
+2 Indicators & - & - & 11.43\\
+3 Indicators & - & - & 2.03\\
+4 Indicators & - & - & 0.39\\
+\bottomrule
+\end{tabular}
+\end{threeparttable}
+\end{center}
+\end{table*}
+\efloatseparator
+ 
+\begin{table*}[hbt]
+\ifnextchar[{\eatarg}{}
+[tbp]
+\begin{center}
+\begin{threeparttable}
+\caption{\label{tab:diff-table}Differences in mean scores for flagged and acceptable data}
+\begin{tabular}{lcccccc}
+\toprule
+Item & \multicolumn{1}{c}{Acceptable $M$ ($SD$)} & \multicolumn{1}{c}{Flagged $M$ ($SD$)} & \multicolumn{1}{c}{$d$} & \multicolumn{1}{c}{$95 CI$} & \multicolumn{1}{c}{$t$} & \multicolumn{1}{c}{$p$}\\
+\midrule
+Item 1 & 5.86 (0.10) & 5.03 (0.06) & 0.69 & 0.40 - 0.97 & 4.87 & < .001\\
+Item 2 & 5.52 (0.11) & 4.23 (0.05) & 0.86 & 0.57 - 1.15 & 6.10 & < .001\\
+Item 3 & 5.40 (0.11) & 4.42 (0.05) & 0.70 & 0.41 - 0.98 & 4.91 & < .001\\
+Item 4 & 5.53 (0.10) & 4.34 (0.05) & 0.81 & 0.52 - 1.09 & 5.70 & < .001\\
+Item 5 & 5.35 (0.10) & 4.36 (0.06) & 0.67 & 0.39 - 0.96 & 4.76 & < .001\\
+Item 6 & 5.80 (0.09) & 4.83 (0.06) & 0.69 & 0.40 - 0.97 & 4.86 & < .001\\
+Item 7 & 5.70 (0.11) & 4.90 (0.05) & 0.62 & 0.34 - 0.90 & 4.39 & < .001\\
+Item 8 & 5.45 (0.10) & 4.55 (0.05) & 0.61 & 0.33 - 0.89 & 4.31 & < .001\\
+Item 9 & 5.67 (0.10) & 4.74 (0.05) & 0.72 & 0.43 - 1.00 & 5.08 & < .001\\
+Item 10 & 5.75 (0.09) & 4.67 (0.06) & 0.81 & 0.52 - 1.10 & 5.74 & < .001\\
+Item 11 & 5.39 (0.11) & 4.17 (0.05) & 0.82 & 0.53 - 1.11 & 5.82 & < .001\\
+Item 12 & 5.68 (0.10) & 4.65 (0.05) & 0.70 & 0.41 - 0.99 & 4.96 & < .001\\
+Item 13 & 5.67 (0.13) & 4.25 (0.05) & 0.87 & 0.58 - 1.16 & 6.18 & < .001\\
+Item 14 & 5.68 (0.10) & 4.53 (0.05) & 0.90 & 0.61 - 1.19 & 6.34 & < .001\\
+Total Score & 78.41 (1.12) & 63.71 (0.64) & 1.18 & 0.88 - 1.48 & 8.31 & < .001\\
+\bottomrule
+\addlinespace
+\end{tabular}
+\begin{tablenotes}[para]
+\textit{Note.} All values are averaged scores over 1000 interations.
+\end{tablenotes}
+\end{threeparttable}
+\end{center}
+\end{table*}
+\efloatseparator
+ 

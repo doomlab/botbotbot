@@ -1,0 +1,22 @@
+\begin{figure*}[hbt]
+\ifnextchar[{\eatarg}{}
+
+\centering
+\includegraphics{SAD_manuscript_files/figure-latex/sad-hist-1.pdf}
+\caption{\label{fig:sad-hist}Histogram of responses from SAD development
+testing.}
+\end{figure*}
+\efloatseparator
+ 
+\begin{figure*}[hbt]
+\ifnextchar[{\eatarg}{}
+
+\centering
+\includegraphics{SAD_manuscript_files/figure-latex/sense-graph-1.pdf}
+\caption{\label{fig:sense-graph}Difference in effect size for sensitivity
+analysis in null and alternative scenarios across sample size. Error
+bars represent 95\% confidence interval of bootstrapped difference
+scores.}
+\end{figure*}
+\efloatseparator
+ 
