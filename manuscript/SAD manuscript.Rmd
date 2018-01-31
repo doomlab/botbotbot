@@ -1,6 +1,6 @@
 ---
-title             : "Survey Automation Detection Methods and Their Implication for Psychological Research"
-shorttitle        : "Survey Automation"
+title             : "Methods to Detect Low Quality Data and Its Implication for Psychological Research"
+shorttitle        : "Detection Methods"
 
 author: 
   - name          : "Erin M. Buchanan"
@@ -40,6 +40,8 @@ output            : papaja::apa6_pdf
 ---
 
 ```{r libraries, include = FALSE}
+knitr::opts_chunk$set(cache = TRUE)
+
 library("papaja")
 library(MOTE)
 library(ez)
@@ -60,6 +62,8 @@ p.value = function(x){
   if (x < .001) { return("< .001")}
   else { return(apa(x, 3, F))}
 }
+
+options(scipen = 999)
 
 ```
 Amazon Mechanical Turk (AMT) was created in 2005 to serve as a marketplace where tasks and miscellaneous jobs are performed by "workers" in exchange for monetary compensation. Tasks range in size and time commitment, where payment for tasks are usually a function of the time commitment. Workers are able to complete tasks remotely around the world, so demographic makeup is naturally more representative compared to traditional WEIRD (Western, Educated, Industrialized, Rich, Democratic) subject pools [@Henrich2010]. Typically, about half of workers come from within the United States, whereas upwards to 40% of workers can come from India [@Ipeirotis2010]. Slightly more females than males have also been documented as AMT workers [@Paolacci2010]. 
@@ -84,11 +88,11 @@ Another method includes the use of attention checks or gold standard questions. 
 
 ##Purpose of Current Study
 
-Fraudulent participant responses can be problematic for any study, leading to the question of appropriate screening methods. @Chandler2017 found that AMT workers wished more work was available to them, which in turn may influence motivations to lie about characteristics, or find means to provide fraudulent responses [@Berg2006]. Participants may use tactics such as reloading surveys and changing previous answers if a pre-screening question has become apparent. While many online platforms, such as Qualtrics, have options to prevent duplicate responses (i.e. ballot stuffing), duplicate responses can still be possible. @Chandler2017 found evidence that even after utilizing options to prevent duplicate responses, 3% of responses were found to be duplicates. 
+Fraudulent participant responses can be problematic for any study, leading to the question of appropriate screening methods. @Chandler2017 found that AMT workers wished more work was available to them, which in turn may influence motivations to lie about characteristics, or find means to provide fraudulent responses [@Berg2006]. Participants may use tactics such as reloading surveys and changing previous answers if a pre-screening question has become apparent. While many online platforms, such as Qualtrics, have options to prevent duplicate responses (i.e. ballot stuffing), duplicate responses can still be possible. @Chandler2017 found evidence that even after utilizing options to prevent duplicate responses, 3% of responses were found to be duplicates. An alternate form of suspicious survey responses stem not from human participants, but from survey automation techniques such as survey bots or automated form fillers. Automated form fillers allow participants to complete entire surveys with one or two clicks. For instance, certain browser plug-ins randomly select radio buttons among common types of survey responses (e.g. Likert style questions). Similarly, when able to overcome constraints such as preventative methods to curtail ballot stuffing, survey bots could be a method to efficiently complete the same survey multiple times. 
 
-An alternate form of suspicious survey responses stem not from human participants, but from survey automation techniques such as survey bots or automated form fillers. Automated form fillers allow participants to complete entire surveys with one or two clicks. For instance, certain browser plug-ins randomly select radio buttons among common types of survey responses (e.g. Likert style questions). Similarly, when able to overcome constraints such as preventative methods to curtail ballot stuffing, survey bots could be a method to efficiently complete the same survey multiple times. The current project investigated this question in three ways. First, we investigated the characteristics of automated form fillers on Likert style data, and used those characteristics to help develop automation detection methods. Second, we further examined differences between automated, high effort, and low effort responses by having participants complete a survey in multiple ways. Last, a survey was placed on AMT, and data was screened using participant screening detection methods to investigate the rate of automated and low effort responses in a given sample. Sensitivity analyses were then used to compare differences in responses given various ratios of high effort to low effort/automated responses. This study was pre-registered at the Open Science Framework (https://osf.io/erqzm/), and all materials, data, and R code are available at https://osf.io/x6t8a/.
+The current project investigated this question in two studies. Overall, Study 1 examined methods of data completion (i.e., automation and participants) to develop an algorithm to detect low quality responses. In Study 1a, we investigated the characteristics of automated form fillers on Likert style data and used those characteristics to help develop automation detection methods. In Study 1b, we explored data quality by examining the differences between automated, high effort, and low effort participant responses to refine the algorithm. Study 2 was used to investigate the rate of automated and low effort responses in a given sample of AMT workers. Sensitivity analyses were then used to compare differences in responses given various ratios of high effort to low effort/automated responses. This study was pre-registered at the Open Science Framework (https://osf.io/erqzm/), and all materials, data, and R code are available at https://osf.io/x6t8a/.
 
-#Survey Automation Detection (SAD) Development
+#Study 1a - Automated Form Fillers
 
 #Method
 
@@ -196,7 +200,9 @@ Qualtrics often provides different measures of timing, including the time it tak
 
 A histogram was used to examine the pattern of responses provided by the survey bot. The responses to the blank questions on the survey were examined across all rows, and, as expected, the data were uniform across the seven Likert scale options. The average skew for responses was less than `r apa(Mskew,2)` (*SD* = `r apa(SDskew,2)`) and the average kurtosis was `r apa(Mkurt,2)` (*SD* = `r apa(SDkurt,2)`). 
 
-#SAD Confederate Testing
+#Study 1b - Exploring Data Quality
+
+#Method
 
 ##Participants
 
@@ -261,11 +267,11 @@ final$condition = factor(final$condition)
 
 ##Materials
 
-The survey used was the Resilience Scale 14 Items (RS-14) which measures an individual's resiliency through items covering meaning/purpose, perseverance, equanimity, self-reliance, and existential loneliness [@Wagnild2009; @Wagnild1993]. This scale uses a 1 (*strongly disagree*) to 7 (*strongly agree*) Likert response scale. Survey questions can be found at www.resiliencecenter.com to find specific RS-14 item content. This questionnaire has been previously investigated by the investigators [@Aiena2014] across clinical and undergraduate samples and was found to be reliable and valid. Real questionnaire questions were used in order to examine reading times and authentic answers. An additional item manipulation check was embedded into each page of the survey that read: "Please mark strongly agree for this question.". The complete survey can be found in the online supplementary materials at https://osf.io/x6t8a/.
+The survey used was the Resilience Scale 14 Items (RS-14) which measures an individual's resiliency through items covering meaning/purpose, perseverance, equanimity, self-reliance, and existential loneliness [@Wagnild2009; @Wagnild1993]. This scale uses a 1 (*strongly disagree*) to 7 (*strongly agree*) Likert response scale. Survey questions can be found at www.resiliencecenter.com to find specific RS-14 item content. This questionnaire has been previously investigated by the investigators [@Aiena2014] across clinical and undergraduate samples and was found to be reliable and valid. Real questionnaire questions were used in order to examine reading times and authentic answers. An additional item manipulation check was embedded into each page of the survey that read: "Please mark strongly agree for this question." The complete survey can be found in the online supplementary materials at https://osf.io/x6t8a/.
 
-##Procedure
+##Design and Procedure
 
-Participants were routed to an online Qualtrics survey. The same survey was completed three times in a randomized order. The first condition was active participation, where subjects were instructed to truthfully and actively complete the survey by reading and answering each question. The second condition was the random, or low effort condition, where participants were instructed not to read the questions but to merely select random answers at their own pace to complete the survey. The third and final condition was the automated response condition, in which participants were instructed to complete the survey using an automated form filler. When the experiment began, participants viewed a video that explained how to take the survey, including how install the automatic survey filler. Participants could not advance until after the duration of the video. After each condition, participants were asked to answer which condition they had just completed, as a check to exclude participants who were not following survey instructions. A critical component to survey automation detection was page timing and clicks, and therefore, each page included a timer question to measure this data. Participants were required to use Google Chrome because of the easy availability to install an automated form filler. The survey and YouTube instructional video can be found online. 
+Participants were routed to an online Qualtrics survey. The same survey was completed three times in a randomized order, thus, the study design was repeated measures. The first condition was active participation, where subjects were instructed to truthfully and actively complete the survey by reading and answering each question. The second condition was the random, or low effort condition, where participants were instructed not to read the questions but to merely select random answers at their own pace to complete the survey. The third and final condition was the automated response condition, in which participants were instructed to complete the survey using an automated form filler. When the experiment began, participants viewed a video that explained how to take the survey, including how install the automatic survey filler. Participants could not advance until after the duration of the video. After each condition, participants were asked to answer which condition they had just completed, as a check to exclude participants who were not following survey instructions. A critical component to survey automation detection was page timing and clicks, and therefore, each page included a timer question to measure this data. Participants were required to use Google Chrome because of the easy availability to install an automated form filler. The survey and YouTube instructional video can be found online. 
 
 #Results
 
@@ -687,7 +693,7 @@ After scoring each set of participant's answers as flagged or not flagged, total
 
 apa_table(tableprint,
           align = c("l", rep("c", 4)),
-          caption = "Summary statistics and percent flagged for SAD development", 
+          caption = "Summary statistics and percent flagged for Study 1b", 
           note = "Mean values presented with standard deviations in parentheses."
           )
 ```
@@ -783,9 +789,11 @@ totalhist +
 
 ```
 
-# SAD AMT Testing
+#Study 2 - AMT Data Quality
 
-## Participants
+#Method 
+
+##Participants
  
 ```{r amt-dev, include = FALSE}
 master = read.csv("Bot_MTURK.csv")
@@ -807,9 +815,9 @@ colnames(final) = c("Tfirst", "Tlast", "Tpage", "Click","q1","q2","q3","q4",
 
 Participants were recruited through AMT at a rate of $0.25 for the 15 question survey. 1053 initial responses were collected from Qualtrics. Three participants were excluded for failing to consent to the survey. 18 more participants were excluded for excessive missing data greater than 20%. Therefore, the final dataset included *N* = 1032 participants. Only 1000 participants were paid through AMT; however, more than 1000 rows of data were captured. This effect is due to participants opening and closing the survey (missing data) or not filling in their AMT worker ID.
 
-## Materials and Procedure
+## Materials, Design, and Procedure
 
-The RS-14 from the previous study was used with the added manipulation check question. This version of the survey only included the consent form, RS-14, and manipulation check question. The instructions were the same as the high effort condition described above. Participants were asked to include their AMT worker ID at the end of the survey and were given a randomized code at the end of the survey to enter on the AMT website for their compensation. Every participant who entered their AMT worker ID was paid, regardless if participants were later flagged as automated or low effort participants, as this type of data was a central target of our investigation.
+The RS-14 from the previous study was used with the added manipulation check question. This version of the survey only included the consent form, RS-14, and manipulation check question. The instructions were the same as the high effort condition described above. Participants were asked to include their AMT worker ID at the end of the survey and were given a randomized code at the end of the survey to enter on the AMT website for their compensation. Every participant who entered their AMT worker ID was paid, regardless if participants were later flagged as automated or low effort participants, as this type of data was a central target of our investigation. The design of this study did not include pre-assigned groups, but between-subjects levels were created with the application of the algorithm. 
 
 # Results
 
@@ -1066,7 +1074,7 @@ All of these indicators were totaled to create an overall score of detection for
 
 apa_table(tableprint2,
           align = c("l", rep("c", 3)),
-          caption = "Summary statistics and percent flagged for AMT testing"
+          caption = "Summary statistics and percent flagged for Study 2"
           )
 ```
 
@@ -1129,7 +1137,6 @@ totalhist +
   scale_y_continuous(limits = c(0,60)) + cleanup
 
 ```
-
 
 ## Differences in Acceptable and Detected Data
 
@@ -1209,7 +1216,7 @@ goodvbad$averagep = apply(goodvbad[ , 137:151], 1, mean)
 overalldiff = apply(goodvbad[ , 152:155], 2, mean)
 
 tableprint3 = matrix(NA, nrow = 15, ncol = 7)
-colnames(tableprint3) = c("Item", "Acceptable $M$ ($SD$)", "Flagged $M$ ($SD$)", "$d$", "$95 CI$", "$t$", "$p$")
+#colnames(tableprint3) = c("Item", "Acceptable $M$ ($SD$)", "Flagged $M$ ($SD$)", "$d$", "$95 CI$", "$t$", "$p$")
 
 Mgood = apply(goodvbad[, 2:16], 2, mean)
 Mbad = apply(goodvbad[, 17:31], 2, mean)
@@ -1236,11 +1243,12 @@ tableprint3[ , 5] = c(paste(apa(Mdlow, 2), " - ", apa(Mdhigh,2), sep = ""))
 tableprint3[ , 6] = c(apa(Mt, 2))
 tableprint3[ , 7] = c(Mp)
 
-apa_table(tableprint3,
+apa_table.latex(tableprint3,
           align = c("l", rep("c", 6)),
           caption = "Differences in mean scores for flagged and acceptable data",
           note = "All values are averaged scores over 1000 interations.",
-          col.names = c("Item", "Acceptable $M$ ($SD$)", "Flagged $M$ ($SD$)", "$d$", "$95 CI$", "$t$", "$p$")
+          col.names = c("Item", "Acceptable $M$ ($SD$)", "Flagged $M$ ($SD$)", "$d$", "$95\\% CI$", "$t$", "$p$"), 
+          escape = FALSE
           )
 ```
 
@@ -1412,7 +1420,7 @@ A sensitivity analysis was included in our preregistered plan; however, no demog
 
 The total scores were then compared using a $d_s$ for independent designs. Second, the problematic data was excluded and the $d_s$ values were calculated again. The data were collected with no experimental manipulation, and therefore, this simulation was not expected to show large differences between groups (supporting the null hypothesis). To simulate the effects of problematic data on an alternative hypothesis, 14 points (i.e., a one point change for each item on the RS-14 scale, thus, a total of 14-point change) was added to the total score of the acceptable data only in one of the randomized groupings. This addition pushed apart the means of the acceptable data, with the assumption that the problematic data would not show this manipulation. The same $d_s$ values were calculated comparing bootstrapped groupings.   
 
-To interpret these analyses, the absolute value change in effect sizes was examined across sample size. The average difference values between tests with problematic data and tests without are presented in Figure \@ref(fig:sense-graph) across sample size. The results from these comparisons indicated that problematic data has a small effect when the null hypothesis was more likely, which decreases across sample size,  $\Delta d_s$ = `r apa(mean(Nddiff), 2)`. However, when the alternative hypothesis was more likely, the effect of problematic data increases wherein $\Delta d_s$ = `r apa(mean(Rddiff), 2)` change in effect size was found, which was more consistent across values of *n*.  This result implies that the inclusion of problematic data can decrease the power of a statistical test by under-representing the effect size in the study. The complete detection algorithm is provided to researchers on our OSF page and part of a completely reproducible manuscript in *R* markdown. 
+To interpret these analyses, the absolute value change in effect sizes was examined across sample size. The average difference values between tests with problematic data and tests without are presented in Figure \@ref(fig:sense-graph) across sample size. The results from these comparisons indicated that problematic data has a small effect when the null hypothesis was more likely, which decreases across sample size,  $\Delta d_s$ = `r apa(mean(Nddiff), 2)`. However, when the alternative hypothesis was more likely, the effect of problematic data increases wherein $\Delta d_s$ = `r apa(mean(Rddiff), 2)` change in effect size was found, which was more consistent across values of *n*.  This result implies that the inclusion of problematic data can decrease the power of a statistical test by under-representing the effect size in the study. The decrease in power can be attributed to the addition of noise to a study, which increases the standard error, therefore, decreasing the test statistic.  The complete detection algorithm is provided to researchers on our OSF page and part of a completely reproducible manuscript in *R* markdown. 
 
 ```{r SAD-function, eval=FALSE, include=FALSE}
 ## requires the 'moments' package
