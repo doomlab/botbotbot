@@ -151,13 +151,13 @@ psychological research. While concerns regarding data quality have
 emerged with AMT, several studies have exhibited that data collected via
 AMT are as reliable as traditional college samples and are often more
 diverse and representative of noncollege populations. The development of
-participant screening methods, however, has been less explored. Omitting
-participants based on simple screening methods in isolation, such as
-response time or attention checks may not be adequate identification
-methods, with an inability to delineate between high or low effort
-participants. Additionally, problematic survey responses may arise from
-survey automation techniques such as survey bots or automated form
-fillers. The current project developed survey automation detection (SAD)
+methods to screen for low quality data, however, has been less explored.
+Omitting participants based on simple screening methods in isolation,
+such as response time or attention checks may not be adequate
+identification methods, with an inability to delineate between high or
+low effort participants. Additionally, problematic survey responses may
+arise from survey automation techniques such as survey bots or automated
+form fillers. The current project developed low quality data detection
 methods while overcoming previous screening limitations. Multiple checks
 were employed, such as page response times, distribution of survey
 responses, the number of utilized choices from a given range of scale
@@ -166,7 +166,7 @@ on a survey taken with an easily available plug-in survey bot, as well
 as compared to data collected by human participants providing both high
 effort and randomized, or low effort, answers. Identified cases can then
 be used as part of sensitivity analyses to warrant exclusion from
-further analyses. SAD methods can be a promising tool to identify low
+further analyses. This algorithm can be a promising tool to identify low
 quality or automated data via AMT or other online data collection
 platforms.}
   \keywords{Amazon Mechanical Turk, survey automation, participant screening, data
@@ -288,8 +288,7 @@ laboratory and in person experimental settings. An attenuation of these
 potentially limiting biases can help the internal validity associated
 with experiments run through AMT (Paolacci et al., 2010).
 
-\subsection{Participant Screening
-Methods}\label{participant-screening-methods}
+\subsection{Data Screening Methods}\label{data-screening-methods}
 
 A serious concern with any data provided by human participants is the
 quality of the data, as the standard of garbage in, garbage out applies
@@ -318,15 +317,15 @@ information that otherwise would be difficult to ascertain using
 existing survey software. Simple JavaScript code was implemented to
 online surveys, enabling the collection of various metrics such as the
 frequency of unfilled items, frequency of changed answers, mouse click
-rates, and excessive mouse movements. By identifying abnormal occurances
-of these metrics, Stieger and Reips (2010) were able to indicate
-participants with potential low motivation, which could lead to low data
-quality. \enquote{Clicking through}, or responding to questions at a
-rate faster than the average reading time of a given question was found
-to be the most common occurence. These types of tools have practical
-importance not only in the detection of potentially low quality data,
-but can be used in the future development of questionnaires in terms of
-participant usability.
+rates, and excessive mouse movements. By identifying abnormal
+occurrences of these metrics, Stieger and Reips (2010) were able to
+indicate participants with potential low motivation, which could lead to
+low data quality. \enquote{Clicking through}, or responding to questions
+at a rate faster than the average reading time of a given question was
+found to be the most common occurrence. These types of tools have
+practical importance not only in the detection of potentially low
+quality data, but can be used in the future development of
+questionnaires in terms of participant usability.
 
 Another method includes the use of attention checks or gold standard
 questions. These are questions with obvious answers, such as
@@ -339,7 +338,7 @@ alone. These concerns revolve around potentially biasing samples.
 Researchers could additionally ask pre-screening questions in attempts
 to test participants of a certain nature. By employing logic in many
 online surveys, participants can be routed to an end of a survey if
-certain answers (e.g.~demographic information) are not selected in a
+certain answers (e.g., demographic information) are not selected in a
 survey. Current screening methods still vary depending on the nature of
 the present task. With mixed results regarding the use of certain types
 of screening methods, a better aim is to develop more reliable methods
@@ -355,7 +354,7 @@ characteristics, or find means to provide fraudulent responses (Berg,
 Lindeboom, \& Dolton, 2006). Participants may use tactics such as
 reloading surveys and changing previous answers if a pre-screening
 question has become apparent. While many online platforms, such as
-Qualtrics, have options to prevent duplicate responses (i.e.~ballot
+Qualtrics, have options to prevent duplicate responses (i.e., ballot
 stuffing), duplicate responses can still be possible. Chandler and
 Paolacci (2017) found evidence that even after utilizing options to
 prevent duplicate responses, 3\% of responses were found to be
@@ -364,7 +363,7 @@ from human participants, but from survey automation techniques such as
 survey bots or automated form fillers. Automated form fillers allow
 participants to complete entire surveys with one or two clicks. For
 instance, certain browser plug-ins randomly select radio buttons among
-common types of survey responses (e.g.~Likert style questions).
+common types of survey responses (e.g., Likert style questions).
 Similarly, when able to overcome constraints such as preventative
 methods to curtail ballot stuffing, survey bots could be a method to
 efficiently complete the same survey multiple times.
@@ -396,18 +395,18 @@ bot was constructed to investigate characteristics of survey responses
 completed by automated form fillers. The survey bot was created using
 the \enquote{Form Filler} Google Chrome plug-in, which automatically
 inputs all selection within a given page with dummy data. This plugin
-was used in both the SAD development, as well as confederate testing.
-The survey bot was constructed using Python, which navigated to an
-online survey, simulating mouse movements and clicks in an iterative
-fashion. The survey bot imputed and submitted random values, iterated
-over one thousand times until complete data was available for 1000 rows.
-The online survey simply consisted of 100 Likert style questions with a
-scale range from one to seven. Since this data was created with the
-automated filler, no real questions or scale values were used (i.e.~an
-empty shell of a survey was created for this part of the project). Scale
-values, along with page response times and click counts were extracted
-from the Qualtrics database with an aim to generally explore the
-characteristics of automated survey responses.
+was used in both the algorithm development, as well as Study 1b
+participant testing. The survey bot was constructed using Python, which
+navigated to an online survey, simulating mouse movements and clicks in
+an iterative fashion. The survey bot imputed and submitted random
+values, iterated over one thousand times until complete data was
+available for 1000 rows. The online survey simply consisted of 100
+Likert style questions with a scale range from one to seven. Since this
+data was created with the automated filler, no real questions or scale
+values were used (i.e., an empty shell of a survey was created for this
+part of the project). Scale values, along with page response times and
+click counts were extracted from the Qualtrics database with an aim to
+generally explore the characteristics of automated survey responses.
 
 \section{Results}\label{results}
 
@@ -418,7 +417,7 @@ participant clicked on the survey page. Ideally, this number has a
 minimum of the number of questions on that page. For instance, if a
 survey has 15 questions, we should expect a minimum of 15 clicks for an
 active human participant who has answered every question. The page
-submit button (i.e.~continue, next, submit) does not record a click. In
+submit button (i.e., continue, next, submit) does not record a click. In
 this data, click count is zero with no variance, as Qualtrics does not
 always register clicks from automated form fillers.
 
@@ -448,31 +447,32 @@ the seven Likert scale options. The average skew for responses was less
 than 0.01 (\emph{SD} = 0.14) and the average kurtosis was 1.77
 (\emph{SD} = 0.11).
 
-\section{Study 1b - Exploring Data
-Quality}\label{study-1b---exploring-data-quality}
+\section{Study 1b - Participant Data
+Quality}\label{study-1b---participant-data-quality}
 
 \section{Method}\label{method-1}
 
 \subsection{Participants}\label{participants}
 
 Next, survey response characteristics were compared between different
-means of survey completion. The survey was first sent to the research
-team of the investigators, and then the investigator's summer
-undergraduate and graduate courses. Additional participants were
+means of survey completion by participants. The survey was first sent to
+the research team of the investigators, and then the investigator's
+summer undergraduate and graduate courses. Additional participants were
 recruited the first week of data collection in the fall semester from
 the undergraduate participant pool at a large Midwestern university. We
 originally aimed for a sample size of \emph{N} = 100, and preemptively
 recruited more participants to allow for the exclusion of incorrect
-responses (i.e.~participants who did not fill out the survey correctly).
-The overall dataset initially included 202 participants. 16 participants
-were excluded for failing to consent to the study. 64 participants were
-excluded for failing to complete the study 100\%. As described below, we
-employed attention checks to ensure that our test data was appropriate,
-and 14 more participants were excluded due to incorrect answers on the
-manipulation checks. Last, we excluded participants who used the survey
-automation on the incorrect section, as determined by click counts, and
-another 14 were excluded. Therefore, final \emph{N} for the study was
-94. Participants were given course credit for their participation.
+responses (i.e., participants who did not fill out the survey
+correctly). The overall dataset initially included 202 participants. 16
+participants were excluded for failing to consent to the study. 64
+participants were excluded for failing to complete the study 100\%. As
+described below, we employed attention checks to ensure that our test
+data was appropriate, and 14 more participants were excluded due to
+incorrect answers on the manipulation checks. Last, we excluded
+participants who used the survey automation on the incorrect section, as
+determined by click counts, and another 14 were excluded. Therefore,
+final \emph{N} for the study was 94. Participants were given course
+credit for their participation.
 
 \subsection{Materials}\label{materials}
 
@@ -546,10 +546,10 @@ for \(\eta_G^2\) interpretation follow J. Cohen (1988), with an
 effect, respectively. A \emph{post hoc} dependent \emph{t}-test using a
 Bonferroni correction indicated that automated data was different from
 low effort responses (\emph{p} \textless{} .001, \(d_{av}\) = 5.84,
-\emph{95\% CI}{[}6.69 - 4.96{]}) and high effort responses (\emph{p}
-\textless{} .001, \(d_{av}\) = 4.80, \emph{95\% CI}{[}5.51 - 4.07{]}).
+\emph{95\% CI}{[}4.96 - 6.69{]}) and high effort responses (\emph{p}
+\textless{} .001, \(d_{av}\) = 4.80, \emph{95\% CI}{[}4.07 - 5.51{]}).
 High and low effort responses were not different in their number of
-clicks (\emph{p} = 1.00, \(d_{av}\) = 0.06, \emph{95\% CI}{[}0.15 -
+clicks (\emph{p} = 1.00, \(d_{av}\) = 0.06, \emph{95\% CI}{[}-0.15 -
 0.26{]}). Means, standard deviations, and flagged percentages can be
 found in Table \ref{tab:sad-table1}.
 
@@ -577,7 +577,7 @@ time, \emph{F}(2, 186) = 30.52, \emph{p} \textless{} .001, \(\eta_G^2\)
 submit times were faster than the high effort condition (\emph{p}
 \textless{} .001, \(d_{av}\) = 1.12, \emph{95\% CI}{[}0.86 - 1.37{]}).
 Automated page submit times were faster than high effort data (\emph{p}
-\textless{} .001, \(d_{av}\) = 0.81, \emph{95\% CI}{[}1.04 - 0.57{]}),
+\textless{} .001, \(d_{av}\) = 0.81, \emph{95\% CI}{[}0.57 - 1.04{]}),
 but slower than low effort data (\emph{p} = .038, \(d_{av}\) = 0.39,
 \emph{95\% CI}{[}0.18 - 0.60{]}). The automated data may have been
 slightly slower than low effort data because of participant's lack of
@@ -599,15 +599,15 @@ while one-way repeated measures ANOVA indicated differences in skew
 values was unclear. High effort data appeared to be slightly more skewed
 than automated data (\emph{p} \textless{} .001, \(d_{av}\) = 0.63,
 \emph{95\% CI}{[}0.41 - 0.85{]}) and low effort data (\emph{p}
-\textless{} .001, \(d_{av}\) = 0.97, \emph{95\% CI}{[}1.22 - 0.73{]}),
+\textless{} .001, \(d_{av}\) = 0.97, \emph{95\% CI}{[}0.73 - 1.22{]}),
 while automated data is more negatively skewed than random data
-(\emph{p} = .012, \(d_{av}\) = 0.44, \emph{95\% CI}{[}0.66 - 0.23{]}).
+(\emph{p} = .012, \(d_{av}\) = 0.44, \emph{95\% CI}{[}0.23 - 0.66{]}).
 High effort data was more kurtotic than automated (\emph{p} \textless{}
-.001, \(d_{av}\) = 0.67, \emph{95\% CI}{[}0.89 - 0.44{]}) and low effort
+.001, \(d_{av}\) = 0.67, \emph{95\% CI}{[}0.44 - 0.89{]}) and low effort
 data (\emph{p} = .016, \(d_{av}\) = 0.48, \emph{95\% CI}{[}0.27 -
 0.70{]}), while automated and low effort data did not appear to be
-different (\emph{p} = .051, \(d_{av}\) = 0.36, \emph{95\% CI}{[}0.57 -
-0.15{]}). The number of items on the scale or page will likely heavily
+different (\emph{p} = .051, \(d_{av}\) = 0.36, \emph{95\% CI}{[}0.15 -
+0.57{]}). The number of items on the scale or page will likely heavily
 influence these results, and therefore, we decided to examine other
 options to determine uniformly distributed data to identify automated
 data.
@@ -617,20 +617,31 @@ data.
 Previous research has shown that participants are likely to select the
 ends of Likert type scales (Zhu \& Carterette, 2010), and from the first
 study, we found that automated data is primarily uniform with nearly
-even answer choice selection for participants. Therefore, we flagged
-participants on the number of responses they used on the Likert scale.
-Problematic cases were identified if more than half of the scale items
-were used (i.e., 7/2 = 3.5, therefore, 4 was the criterion). Table
-\ref{tab:sad-table1} portrays that nearly all the automated and low
-effort data used four or more scale points, while only 25\% of the high
-effort data used four or more scale items The raw number of items used
-was different across conditions, \emph{F}(2, 186) = 190.20, \emph{p}
-\textless{} .001, \(\eta_G^2\) = .57. Automated and low effort data were
-not different (\emph{p} = 1.00, \(d_{av}\) = 0.11, \emph{95\% CI}{[}0.31
-- 0.09{]}), while both were different than high effort data: automated
-\emph{p} \textless{} .001, \(d_{av}\) = 2.53, \emph{95\% CI}{[}2.11 -
-2.94{]}; low effort \emph{p} \textless{} .001, \(d_{av}\) = 2.25,
-\emph{95\% CI}{[}2.63 - 1.87{]}.
+even answer choice selection for participants. Participants will likely
+vary in their response styles, as they may choose the ends or the middle
+of the scale. Here, we examined if the number of scale options could be
+used to detect automated and low effort data versus high effort data.
+Therefore, we explored if real participants were more likely to choose
+less scale options than form fillers, and what participants might do in
+a low effort condition.
+
+We flagged participants on the number of responses they used on the
+Likert scale. Problematic cases were identified if more than half of the
+scale items were used (i.e., 7/2 = 3.5, therefore, 4 was the criterion).
+Table \ref{tab:sad-table1} portrays that nearly all the automated and
+low effort data used four or more scale points, while only 25\% of the
+high effort data used four or more scale items. The raw number of items
+used was different across conditions, \emph{F}(2, 186) = 190.20,
+\emph{p} \textless{} .001, \(\eta_G^2\) = .57. Automated and low effort
+data were not different (\emph{p} = 1.00, \(d_{av}\) = 0.11, \emph{95\%
+CI}{[}0.09 - 0.31{]}), while both were different than high effort data:
+automated \emph{p} \textless{} .001, \(d_{av}\) = 2.53, \emph{95\%
+CI}{[}2.11 - 2.94{]}; low effort \emph{p} \textless{} .001, \(d_{av}\) =
+2.25, \emph{95\% CI}{[}1.87 - 2.63{]}. The large effect size differences
+here between automated/low effort and high effort data here indicated
+that participants were not likely to use the entire scale. Researchers
+may wish to adjust this criteria (i.e., 5/7 points rather than 4/7)
+given previous work with their selected questionnaires.
 
 \subsubsection{Distribution Comparison}\label{distribution-comparison}
 
@@ -670,7 +681,7 @@ case, seven) of passing the manipulation check, and Table
 fit this trend exactly. Therefore, nearly 86\% of automated data was
 flagged, while almost all low effort data was problematic. In the high
 effort data condition, only 3\% of responses to this item were
-incorrect, and therefore flagged.
+incorrect, and therefore, flagged.
 
 \subsection{Total Detection}\label{total-detection}
 
@@ -686,7 +697,7 @@ for a similar discussion), and an objective criterion may not fit within
 every research design. However, as shown above, by using at least two
 flagged items, 100\% of the automated data and 99\% of the low effort
 data would be eliminated. Only 2\% of the high effort data would be
-excluded. The SAD function developed from this data does not distinguish
+excluded. The algorithm developed from this data does not distinguish
 between low effort and automated responses, in that both types of
 participant responses would be considered problematic for research
 purposes. Therefore, all detected data is considered automated, as low
@@ -694,10 +705,10 @@ effort responses can be considered a derivative type of automation
 compared to bot created data. While two items is the fewest number of
 items that could accurately identify problematic data, we suggest that
 the number of items used can be tailored to fit a researcher's survey or
-hypothesis, disclosed alongside all other analyses. The SAD algorithm
-code was designed to export all criterion information into a data frame
-so that individual researchers could implement their own detection
-rules, and can be adapted if not all items are available due to survey
+hypothesis, disclosed alongside all other analyses. The algorithm code
+was designed to export all criterion information into a data frame so
+that individual researchers could implement their own detection rules,
+and can be adapted if not all items are available due to survey
 construction. We encourage researchers using this function to be
 transparent with their screening for problematic data and to consider
 the effects of screening on sample size planning for future studies.
@@ -804,7 +815,7 @@ for either normal or uniform data. Rows that included only one answer
 choice selection were coded as undecided, which were combined with data
 fitting normal distributions as non problematic for coding purposes.
 Less than two percent of the data was coded as uniform, while
-approximately 94 and 5 percent were coded as normal or undecided.
+approximately 94 and five percent were coded as normal or undecided.
 
 \subsection{Manipulation Check}\label{manipulation-check}
 
@@ -847,8 +858,8 @@ Manipulation Check & - & - & 5.04\\
 \end{center}
 \end{table}
 
-\subsection{Differences in Acceptable and Detected
-Data}\label{differences-in-acceptable-and-detected-data}
+\subsection{Differences in Acceptable and Flagged
+Data}\label{differences-in-acceptable-and-flagged-data}
 
 \begin{table}[tbp]
 \begin{center}
@@ -884,18 +895,18 @@ Total Score & 78.41 (1.12) & 63.71 (0.64) & 1.18 & 0.88 - 1.48 & 8.31 & < .001\\
 \end{table}
 
 Data were dichotomized into rows that would typically be included in
-final analyses (i.e.~less than two indicators) and rows that would be
-excluded as low effort and automated data (i.e.~two or more indicators).
-The dataset for acceptable data was much larger (\emph{n} = 889) than
-the detected data (\emph{n} = 143), and therefore, we randomly selected
-\emph{n} = 100 for each group to examine differences in item and total
-score means. We bootstrapped 1000 datasets of the randomly sampled
-groups, and Table \ref{tab:diff-table} includes the average means and
-standard deviations. Further, independent \emph{t}-tests were used to
-compare the item and total means. Average \emph{t}-values,
+final analyses (i.e., less than two indicators) and rows that would be
+excluded as low effort and automated data (i.e., two or more
+indicators). The dataset for acceptable data was much larger (\emph{n} =
+889) than the flagged data (\emph{n} = 143), and therefore, we randomly
+selected \emph{n} = 100 for each group to examine differences in item
+and total score means. We bootstrapped 1000 datasets of the randomly
+sampled groups, and Table \ref{tab:diff-table} includes the average
+means and standard deviations. Further, independent \emph{t}-tests were
+used to compare the item and total means. Average \emph{t}-values,
 \emph{p}-values, \(d_s\), and non-centralized \emph{95\% CI} for \(d_s\)
 (Buchanan et al., 2017; Cumming, 2013; Lakens, 2013) are included in
-Table \ref{tab:diff-table}. The detected data portrayed much lower
+Table \ref{tab:diff-table}. The flagged data portrayed much lower
 average scores than the high effort data, with an average effect size of
 \(d_s\) = 1.54 across all items and total scores, average \(t\)(197.83)
 = 5.49, \emph{p} \textless{} .001.
@@ -920,47 +931,46 @@ likely. These analyses were calculated over a range of sample sizes,
 starting at \emph{n} = 20 for each group and increasing in units of 10
 until a sample size of \emph{n} = 200 for each group. At each sample
 size, 1000 bootstraps were calculated. Within each bootstrapped sample,
-a random proportion of problematic data was included in each group.
-First, a confidence interval around the proportion of problematic data
-was calculated to be .12 to .16. Then, a random proportion was selected
-from that range. The selected proportion was used as the sample size
-proportion problematic data for each \emph{n} (\emph{p}*\emph{n}), and
-likewise for acceptable data for each \emph{n} ((1-\emph{p})*\emph{n}).
-This process was used for both groups, resulting in two groups of data,
-each with a specific sample size and proportion of problematic data. The
-dataset sampled included several missing data points, thus, those scores
-were dropped when appropriate.
+a random proportion of flagged data was included in each group. First, a
+confidence interval around the proportion of flagged data was calculated
+to be .12 to .16. Then, a random proportion was selected from that
+range. The selected proportion was used as the sample size proportion
+flagged data for each \emph{n} (\emph{p}*\emph{n}), and likewise for
+acceptable data for each \emph{n} ((1-\emph{p})*\emph{n}). This process
+was used for both groups, resulting in two groups of data, each with a
+specific sample size and proportion of flagged data. The dataset sampled
+included several missing data points, thus, those scores were dropped
+when appropriate.
 
 The total scores were then compared using a \(d_s\) for independent
-designs. Second, the problematic data was excluded and the \(d_s\)
-values were calculated again. The data were collected with no
-experimental manipulation, and therefore, this simulation was not
-expected to show large differences between groups (supporting the null
-hypothesis). To simulate the effects of problematic data on an
-alternative hypothesis, 14 points (i.e., a one point change for each
-item on the RS-14 scale, thus, a total of 14-point change) was added to
-the total score of the acceptable data only in one of the randomized
-groupings. This addition pushed apart the means of the acceptable data,
-with the assumption that the problematic data would not show this
-manipulation. The same \(d_s\) values were calculated comparing
-bootstrapped groupings.
+designs. Second, the flagged data was excluded, and the \(d_s\) values
+were calculated again. The data were collected with no experimental
+manipulation, and therefore, this simulation was not expected to show
+large differences between groups (supporting the null hypothesis). To
+simulate the effects of flagged data on an alternative hypothesis, 14
+points (i.e., a one point change for each item on the RS-14 scale, thus,
+a total of 14-point change) was added to the total score of the
+acceptable data only in one of the randomized groupings. This addition
+pushed apart the means of the acceptable data, with the assumption that
+the flagged data would not show this manipulation. The same \(d_s\)
+values were calculated comparing bootstrapped groupings.
 
 To interpret these analyses, the absolute value change in effect sizes
 was examined across sample size. The average difference values between
-tests with problematic data and tests without are presented in Figure
+tests with flagged data and tests without are presented in Figure
 \ref{fig:sense-graph} across sample size. The results from these
-comparisons indicated that problematic data has a small effect when the
-null hypothesis was more likely, which decreases across sample size,
+comparisons indicated that flagged data has a small effect when the null
+hypothesis was more likely, which decreases across sample size,
 \(\Delta d_s\) = 0.05. However, when the alternative hypothesis was more
-likely, the effect of problematic data increases wherein \(\Delta d_s\)
-= 0.34 change in effect size was found, which was more consistent across
-values of \emph{n}. This result implies that the inclusion of
-problematic data can decrease the power of a statistical test by
-under-representing the effect size in the study. The decrease in power
-can be attributed to the addition of noise to a study, which increases
-the standard error, therefore, decreasing the test statistic. The
-complete detection algorithm is provided to researchers on our OSF page
-and part of a completely reproducible manuscript in \emph{R} markdown.
+likely, the effect of flagged data increases wherein \(\Delta d_s\) =
+0.34 change in effect size was found, which was more consistent across
+values of \emph{n}. This result implies that the inclusion of flagged
+data can decrease the power of a statistical test by under-representing
+the effect size in the study. The decrease in power can be attributed to
+the addition of noise to a study, which increases the standard error,
+therefore, decreasing the test statistic. The complete detection
+algorithm is provided to researchers on our OSF page and part of a
+completely reproducible manuscript in \emph{R} markdown.
 
 \section{Discussion}\label{discussion}
 
