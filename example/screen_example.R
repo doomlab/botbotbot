@@ -1,5 +1,3 @@
-## requires the 'moments' package
-##      install.packages("moments")
 ## args: dat: Dataframe of scale values, with each row being a participant and each column being a scale question
 ## args: rt: vector of response time/page time for each participant
 ## args: min: minimum value of scale
@@ -9,11 +7,6 @@
 ## args: manvec: vector of manipulation check question responses
 ## args: mancor: correct answer of manipulation check
 ## args: char: number of characters on the page
-## returns: table of identified cases, where True equals an identified automated response
-## creates a vector "identified" of True and False, where True identifies specific cases to note 
-##     specific participants
-## creates a subsetted dataframe "subdata" excluding identified cases
-
 
 SAD = function(dat, #data frame of only scale values
                rt = NULL, #column name for page timing
@@ -23,7 +16,7 @@ SAD = function(dat, #data frame of only scale values
                click = NULL, #column of click counts
                manvec = NULL, #column of manipulation check
                mancor = NULL, #answer to the manipulation check
-               char = NULL){ 
+               char = NULL){ #number of characters on the page
   
   ##make sure the data provided is a data frame
   dat = as.data.frame(dat)
@@ -93,11 +86,10 @@ SAD = function(dat, #data frame of only scale values
   nsim = length(manvec)
   badMC = rep(NA, nrow(dat))
   for(i in 1:nsim){
-    if(!is.na(manvec[i])){
-      if(manvec[i] == mancor) { badMC[i] = 0} else { badMC[i] = 1}
-    } else { badMC[i] = 1}
+    if(!is.na(manvec[i])){ 
+      if(manvec[i] == mancor) { badMC[i] = 0 } else { badMC[i] = 1}} else { badMC[i] = 1}
   }
-  badMC = as.numeric(manvec)
+  badMC = as.numeric(badMC)
   } else { badMC = rep(NA, nrow(dat))}
   
   ####Distribution Testing####

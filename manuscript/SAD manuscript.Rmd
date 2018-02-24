@@ -1424,8 +1424,6 @@ The total scores were then compared using a $d_s$ for independent designs. Secon
 To interpret these analyses, the absolute value change in effect sizes was examined across sample size. The average difference values between tests with flagged data and tests without are presented in Figure \@ref(fig:sense-graph) across sample size. The results from these comparisons indicated that flagged data has a small effect when the null hypothesis was more likely, which decreases across sample size,  $\Delta d_s$ = `r apa(mean(Nddiff), 2)`. However, when the alternative hypothesis was more likely, the effect of flagged data increases wherein $\Delta d_s$ = `r apa(mean(Rddiff), 2)` change in effect size was found, which was more consistent across values of *n*.  This result implies that the inclusion of flagged data can decrease the power of a statistical test by under-representing the effect size in the study. The decrease in power can be attributed to the addition of noise to a study, which increases the standard error, therefore, decreasing the test statistic. The complete detection algorithm is provided to researchers on our OSF page and part of a completely reproducible manuscript in *R* markdown. 
 
 ```{r SAD-function, eval=FALSE, include=FALSE}
-## requires the 'moments' package
-##      install.packages("moments")
 ## args: dat: Dataframe of scale values, with each row being a participant and each column being a scale question
 ## args: rt: vector of response time/page time for each participant
 ## args: min: minimum value of scale
@@ -1435,11 +1433,6 @@ To interpret these analyses, the absolute value change in effect sizes was exami
 ## args: manvec: vector of manipulation check question responses
 ## args: mancor: correct answer of manipulation check
 ## args: char: number of characters on the page
-## returns: table of identified cases, where True equals an identified automated response
-## creates a vector "identified" of True and False, where True identifies specific cases to note 
-##     specific participants
-## creates a subsetted dataframe "subdata" excluding identified cases
-
 
 SAD = function(dat, #data frame of only scale values
                rt = NULL, #column name for page timing
@@ -1449,7 +1442,7 @@ SAD = function(dat, #data frame of only scale values
                click = NULL, #column of click counts
                manvec = NULL, #column of manipulation check
                mancor = NULL, #answer to the manipulation check
-               char = NULL){ 
+               char = NULL){ #number of characters on the page
   
   ##make sure the data provided is a data frame
   dat = as.data.frame(dat)
@@ -1519,11 +1512,10 @@ SAD = function(dat, #data frame of only scale values
   nsim = length(manvec)
   badMC = rep(NA, nrow(dat))
   for(i in 1:nsim){
-    if(!is.na(manvec[i])){
-      if(manvec[i] == mancor) { badMC[i] = 0} else { badMC[i] = 1}
-    } else { badMC[i] = 1}
+    if(!is.na(manvec[i])){ 
+      if(manvec[i] == mancor) { badMC[i] = 0 } else { badMC[i] = 1}} else { badMC[i] = 1}
   }
-  badMC = as.numeric(manvec)
+  badMC = as.numeric(badMC)
   } else { badMC = rep(NA, nrow(dat))}
   
   ####Distribution Testing####
@@ -1610,6 +1602,7 @@ SAD = function(dat, #data frame of only scale values
 } #end function
 #########################################################################################
 #########################################################################################
+
 ```
 
 #Discussion
