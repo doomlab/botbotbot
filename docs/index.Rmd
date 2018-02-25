@@ -3,25 +3,22 @@
 
 <link rel="stylesheet" href="styles.css" type="text/css">
 
+A supplementary site for "Methods to Detect Low Quality Data and Its Implication for Psychological Research".
 
-
-Here is the supplementary site for "Methods to Detect Low Quality Data and Its Implication for Psychological Research" 
-
-This article can be found [here](include publisher website)
+This article can be found [here](https://osf.io/cv2bn/) and will soon be published on [Behavior Research Methods'](http://www.springer.com/psychology/cognitive+psychology/journal/13428) website.
 
 ####Author Information
 
-[Erin M. Buchanan, Ph.D.](http://www.aggieerin.com/)
-Department of Psychology
-Missouri State University
+[Erin M. Buchanan, Ph.D.](http://www.aggieerin.com/)  
+Department of Psychology  
+Missouri State University  
 [Google Scholar](https://scholar.google.com/citations?user=ReD-s38AAAAJ&hl=en&oi=ao)
 
-[John E. Scofield, M.S.](https://scofieldjohn.github.io/)
-Psychological Sciences
-University of Missouri
+[John E. Scofield, M.S.](https://scofieldjohn.github.io/)  
+Psychological Sciences  
+University of Missouri  
 [Google Scholar](https://scholar.google.com/citations?user=Nb3dR6AAAAAJ&hl=en)
 
-
 ####OSF
-Data and experimental materials can be found [here](https://osf.io/x6t8a/)
+Data and experimental materials can be found [here](https://osf.io/x6t8a/).
 

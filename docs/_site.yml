@@ -1,16 +1,14 @@
 name: "bot-website"
 output_dir: "."
 navbar:
-  title: "Bot Website"
+  title: "Low Quality Data Screening"
   left:
     - text: "Summary"
       href: Summary.html
-    - text: "Figures"
-      href: Figures.html    
     - text: "Supplementary Materials"
       href: Supp.html
     - text: "Full Text"
-      href: Full_text.html
+      href: https://osf.io/cv2bn/
 output:
   html_document:
     theme: flatly

@@ -174,7 +174,7 @@ $(document).ready(function () {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">Bot Website</a>
+      <a class="navbar-brand" href="index.html">Low Quality Data Screening</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
@@ -182,13 +182,10 @@ $(document).ready(function () {
   <a href="Summary.html">Summary</a>
 </li>
 <li>
-  <a href="Figures.html">Figures</a>
-</li>
-<li>
   <a href="Supp.html">Supplementary Materials</a>
 </li>
 <li>
-  <a href="Full_text.html">Full Text</a>
+  <a href="https://osf.io/cv2bn/">Full Text</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -209,23 +206,22 @@ $(document).ready(function () {
 
 <div id="abstract" class="section level3">
 <h3>Abstract</h3>
-<p>Web-based data collection methods such as Amazon’s Mechanical Turk (AMT) are an appealing option to recruit participants quickly and cheaply for psychological research. While concerns regarding data quality have emerged with AMT, several studies have exhibited that data collected via AMT are as reliable as traditional college samples and are often more diverse and representative of noncollege populations. The development of methods to screen for low quality data, however, has been less explored. Omitting participants based on simple screening methods in isolation, such as response time or attention checks may not be adequate identification methods, with an inability to delineate between high or low effort participants. Additionally, problematic survey responses may arise from survey automation techniques such as survey bots or automated form fillers. The current project developed low quality data detection methods while overcoming previous screening limitations. Multiple checks were employed, such as page response times, distribution of survey responses, the number of utilized choices from a given range of scale options, click counts, and manipulation checks. This method was tested on a survey taken with an easily available plug-in survey bot, as well as compared to data collected by human participants providing both high effort and randomized, or low effort, answers. Identified cases can then be used as part of sensitivity analyses to warrant exclusion from further analyses. This algorithm can be a promising tool to identify low quality or automated data via AMT or other online data colleciton platforms.</p>
-<p>Keywords: Amazon Mechanical Turk, survey automation, participant screening, data quality.</p>
-<div id="introduction" class="section level4">
-<h4>Introduction</h4>
-<p>here is a blurb about the introduction.</p>
-</div>
-<div id="methods" class="section level4">
-<h4>Methods</h4>
-<p>Here is a blurb about the methods</p>
-</div>
-<div id="results" class="section level4">
-<h4>Results</h4>
-<p>Here is a blurb about the results</p>
-</div>
-<div id="discussion" class="section level4">
-<h4>Discussion</h4>
-<p>Here is a blurb about the discussion.</p>
+<p>Web-based data collection methods such as Amazon’s Mechanical Turk (AMT) are an appealing option to recruit participants quickly and cheaply for psychological research. While concerns regarding data quality have emerged with AMT, several studies have exhibited that data collected via AMT are as reliable as traditional college samples and are often more diverse and representative of noncollege populations. The development of methods to screen for low quality data, however, has been less explored. Omitting participants based on simple screening methods in isolation, such as response time or attention checks may not be adequate identification methods, with an inability to delineate between high or low effort participants. Additionally, problematic survey responses may arise from survey automation techniques such as survey bots or automated form fillers. The current project developed low quality data detection methods while overcoming previous screening limitations. Multiple checks were employed, such as page response times, distribution of survey responses, the number of utilized choices from a given range of scale options, click counts, and manipulation checks. This method was tested on a survey taken with an easily available plug-in survey bot, as well as compared to data collected by human participants providing both high effort and randomized, or low effort, answers. Identified cases can then be used as part of sensitivity analyses to warrant exclusion from further analyses. This algorithm can be a promising tool to identify low quality or automated data via AMT or other online data collection platforms.</p>
+<p><em>Keywords</em>: Amazon Mechanical Turk, survey automation, participant screening, data quality.</p>
+<div id="the-somewhat-non-technical-version" class="section level4">
+<h4>The (somewhat) Non-Technical Version</h4>
+<ul>
+<li>The social sciences have used online data collection as a way to collect data, in a cheap and efficient fashion. However, the advent of this type of data collection presents potential pitfalls that researchers should be aware of - and in this paper, we focused specifically on low quality data. Low quality data was defined as low effort (participants who just “click through” a study to get it done quickly) and automated (participants who use automatic form fillers that enter random data at the click of a button).</li>
+<li>We explored both of these data types in a couple of studies and found ways to effectively screen for particpants employing either of these strategies. We used a college sample that was taught how to provide automated, low, and high effort data as a way to develop our screener. Then we applied that screener to a Mechanical Turk sample.</li>
+<li>Screening methods:
+<ul>
+<li>Manipulation Checks, such as “Please mark strongly agree to this question” are a great way to screen for low quality data.</li>
+<li>Page Response time (by page, not the entire study) can be useful at screening out participants who viewed the page too quickly to be adequately read.</li>
+<li>Data distribution within participant can be useful at indicating low quality data. Participants in high effort conditions do not tend to use the entire range of a Likert type scale. Therefore, we suggest looking for participants who used more than half of the response choices (i.e. on a 1-7 scale, you would see five or more options picked across questions). Additionally, we included ways to determine if the distribution was uniform (i.e., equal selection of each answer choice) or normal (i.e. a bell curve). This function will be useful with more items on a page and did an ok job at screening participants. *Click counts are provided by survey software like Qualtrics. This measure indicates the number of times that someone clicked on the page with their mouse. An automated form filler does not trigger the click count, and this measure is very handy to eliminate that type of data. Click count should be equal to or greater than the number of items answered on a page.</li>
+</ul></li>
+<li>Sensitivity analyses indicated that the inclusion of low effort data can lead to lower power and effect sizes when expected differences are true (i.e. the null hypothesis is false), which may lead a researcher to a Type II error. When the null hypothesis is true, the noise from low quality data does not appear to effect decision criteria.</li>
+<li>We created an R function and Shiny app to help researchers screen for low quality data. More information on these materials can be found on the <a href="Supp.html">Supplimentary Materials</a> page.</li>
+</ul>
 </div>
 </div>
 

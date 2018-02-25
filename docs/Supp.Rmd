@@ -3,7 +3,18 @@ title: "Supplementary Materials"
 output: html_document
 ---
 
-A link to all experimental data, materials, and code can be found [here](https://osf.io/x6t8a/)
+A link to all experimental data, materials, and code can be found [here](https://osf.io/x6t8a/).
 
 ####Video Tutorials
-video tutorial explaining example of using algo will go here
+
+Download the script examples on [GitHub](https://github.com/doomlab/botbotbot/tree/master/example).
+
+Watch the YouTube video on how to use our function:
+
+[![R Function Video](https://img.youtube.com/vi/QE5_qktry5I/0.jpg)](https://www.youtube.com/watch?v=QE5_qktry5I)
+
+View the Shiny app [here](http://96.242.30.151:3838/lq-screen/). Download the code for the Shiny app from [GitHub](https://github.com/doomlab/shiny-server/tree/master/lq-screen).
+
+Watch the YouTube video on how to use our Shiny App:
+
+[![R Function Video](https://img.youtube.com/vi/UmsuNw_fcIk/0.jpg)](https://www.youtube.com/watch?v=UmsuNw_fcIk)

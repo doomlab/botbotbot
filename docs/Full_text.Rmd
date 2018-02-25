@@ -1,7 +1,0 @@
----
-title: "Full Text"
-output: html_document
----
-
-
-The Full Text preprint of this project can be found [here](https://osf.io/cv2bn/)
