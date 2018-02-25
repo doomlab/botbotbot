@@ -1,0 +1,14 @@
+---
+title: "Figures"
+output: html_document
+---
+
+Here is table 1:
+
+![](images/pic.jpg)
+
+Here is table 2:
+
+Here is Figure 1:
+
+

@@ -1,0 +1,17 @@
+name: "bot-website"
+output_dir: "."
+navbar:
+  title: "Bot Website"
+  left:
+    - text: "Summary"
+      href: Summary.html
+    - text: "Figures"
+      href: Figures.html    
+    - text: "Supplementary Materials"
+      href: Supp.html
+    - text: "Full Text"
+      href: Full_text.html
+output:
+  html_document:
+    theme: flatly
+    css: 'styles.css'

@@ -1,0 +1,9 @@
+---
+title: "Supplementary Materials"
+output: html_document
+---
+
+A link to all experimental data, materials, and code can be found [here](https://osf.io/x6t8a/)
+
+####Video Tutorials
+video tutorial explaining example of using algo will go here

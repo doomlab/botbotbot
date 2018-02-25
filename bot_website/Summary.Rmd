@@ -1,0 +1,23 @@
+---
+title: "Summary"
+output: html_document
+---
+
+###Abstract
+Web-based data collection methods such as Amazon's Mechanical Turk (AMT) are an appealing option to recruit participants quickly and cheaply for psychological research. While concerns regarding data quality have emerged with AMT, several studies have exhibited that data collected via AMT are as reliable as traditional college samples and are often more diverse and representative of noncollege populations. The development of methods to screen for low quality data, however, has been less explored. Omitting participants based on simple screening methods in isolation, such as response time or attention checks may not be adequate identification methods, with an inability to delineate between high or low effort participants. Additionally, problematic survey responses may arise from survey automation techniques such as survey bots or automated form fillers. The current project developed low quality data detection methods while overcoming previous screening limitations. Multiple checks were employed, such as page response times, distribution of survey responses, the number of utilized choices from a given range of scale options, click counts, and manipulation checks. This method was tested on a survey taken with an easily available plug-in survey bot, as well as compared to data collected by human participants providing both high effort and randomized, or low effort, answers. Identified cases can then be used as part of sensitivity analyses to warrant exclusion from further analyses. This algorithm can be a promising tool to identify low quality or automated data via AMT or other online data colleciton platforms.
+
+Keywords: Amazon Mechanical Turk, survey automation, participant screening, data quality.
+
+
+####Introduction
+here is a blurb about the introduction.
+
+####Methods
+Here is a blurb about the methods
+
+####Results
+Here is a blurb about the results
+
+####Discussion
+Here is a blurb about the discussion.
+
