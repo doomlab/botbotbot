@@ -13,7 +13,7 @@ Watch the YouTube video on how to use our function:
 
 [![R Function Video](https://img.youtube.com/vi/QE5_qktry5I/0.jpg)](https://www.youtube.com/watch?v=QE5_qktry5I)
 
-View the Shiny app [here](http://96.242.30.151:3838/lq-screen/). Download the code for the Shiny app from [GitHub](https://github.com/doomlab/shiny-server/tree/master/lq-screen).
+View the Shiny app [here](http://aggieerin.com/shiny/lq-screen/). Download the code for the Shiny app from [GitHub](https://github.com/doomlab/shiny-server/tree/master/lq-screen).
 
 Watch the YouTube video on how to use our Shiny App:
 
